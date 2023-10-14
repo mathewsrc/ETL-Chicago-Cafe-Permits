@@ -69,3 +69,17 @@ Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 
 
 --------
+
+
+Notebook
+
+Fetching datasets
+
+<img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f633d13d-8835-4187-95e8-59db9c6794b7" width=50%>
+
+
+Extracting, transforming, and loading a dataset
+
+<img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f4d6ddb4-a6a6-494b-a715-f0459b6e2878" width=50%>
+
+
