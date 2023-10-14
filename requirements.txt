@@ -45,6 +45,9 @@ dbt-bigquery==1.6.7
 # save models
 joblib==1.3.2
 
+# hugging face
+transformers==4.34.0
+
 # data visualization
 matplotlib==3.8.0
 searborn==0.13.0
