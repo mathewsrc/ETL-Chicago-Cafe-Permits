@@ -1,62 +1,60 @@
 
 # webscraping
-beautifulsoup4
-selenium
-requests
-webdriver-manager
+beautifulsoup4==4.12.2
+requests==2.31.0
 
 # microservices
-fastapi
-uvicorn[standard]
+fastapi==0.103.2
+uvicorn[standard]==0.23.2
 
 # formatting
-black
+black==23.9.1
 
 # testing
-pytest
-pytest-cov
+pytest==7.4.2
+pytest-cov==4.1.0
 
 # data validation
-pydantic
+pydantic==2.4.2
 
 # linting
-ruff
+ruff==0.0.292
 
 # cli tools
-click
+click==8.1.7
 
 # debuging
-icecream
+icecream==2.1.3
 
 # logging
-loguru
+loguru==0.7.2
 
 # env variables
-python-dotenv
+python-dotenv==1.0.0
 
 # data wrangling (etl)
-polars
-pyspark
-dataprep
-pandas
+polars==0.19.8
+pyspark==3.5.0
+dataprep==0.4.5
+pandas==2.1.1
 
 # Data quality
-dbt-spark
-dbt-bigquery
+dbt-spark==1.6.0
+dbt-bigquery==1.6.7
 
 # save models
-joblib
+joblib==1.3.2
 
 # data visualization
-matplolib
-searborn
-wordcloud
+matplotlib==3.8.0
+searborn==0.13.0
+wordcloud==1.9.2
 
 # others
-tqdm
-ipython
-numpy
+tqdm==4.66.1
+ipython==8.16.1
+ipywidgets==8.1.1
 
 # URL manipulation
-furl
+furl==2.1.3
 
