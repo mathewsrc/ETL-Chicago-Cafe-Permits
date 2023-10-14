@@ -1,0 +1,62 @@
+
+# webscraping
+beautifulsoup4
+selenium
+requests
+webdriver-manager
+
+# microservices
+fastapi
+uvicorn[standard]
+
+# formatting
+black
+
+# testing
+pytest
+pytest-cov
+
+# data validation
+pydantic
+
+# linting
+ruff
+
+# cli tools
+click
+
+# debuging
+icecream
+
+# logging
+loguru
+
+# env variables
+python-dotenv
+
+# data wrangling (etl)
+polars
+pyspark
+dataprep
+pandas
+
+# Data quality
+dbt-spark
+dbt-bigquery
+
+# save models
+joblib
+
+# data visualization
+matplolib
+searborn
+wordcloud
+
+# others
+tqdm
+ipython
+numpy
+
+# URL manipulation
+furl
+
