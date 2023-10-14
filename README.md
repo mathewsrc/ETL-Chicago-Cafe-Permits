@@ -1,23 +1,42 @@
-template
+Streamlined ETL Process: Unleashing Polars and Dataprep
 ==============================
 
-MLOps template
+Project Summary:
+
+This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Dataprep, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the U.S. government's data repository at https://catalog.data.gov.
+
+Project Objectives:
+
+Extraction: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov, a repository of various data formats, including CSV, XLS, and HTML.
+
+Transformation: Data manipulation and cleaning are accomplished using Polars, a high-performance data manipulation library written in Rust.
+
+Data Profiling: Dataprep is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
+
+Loading: Transformed data is saved in CSV files using Polars.
+
+Logging: Loguru is chosen for logging, ensuring transparency, and facilitating debugging throughout the ETL process.
+
+Orchestration: Airflow is employed to orchestrate the whole ETL process.
+
+Through the automation of these ETL tasks, I establish a robust data pipeline that transforms raw data into valuable assets, supporting informed decision-making and data-driven insights.
+
 
 Project Organization
 ------------
 
 ```
-mlops-template/
+Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 ├── .devcontainer # Tells VS Code how to access (or create) a development container with a well-defined tool and runtime stack
 |   └── devcontainer.json
 ├── .github # GitHub Actions for continuous integration and deployment 
 |   └── workflows
-|       └── python-app.yml
+|       └── main.yml
 ├── LICENSE     
 ├── README.md                  
-├── Makefile                     # Makefile with commands like `make data` or `make train`                   
-├── configs                      # Config files (models and training hyperparameters)
-│   └── model1.yaml              
+├── Makefile                     # Makefile with commands                    
+├── configs                      # Config files 
+│   └── configs.yaml              
 │
 ├── data                         
 │   ├── external                 # Data from third-party sources.
@@ -27,11 +46,7 @@ mlops-template/
 │
 ├── docs                         # Project documentation.
 │
-├── models                       # Trained and serialized models.
-│
 ├── notebooks                    # Jupyter notebooks.
-│
-├── references                   # Data dictionaries, manuals, and all other explanatory materials.
 │
 ├── reports                      # Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures                  # Generated graphics and figures to be used in reporting.
@@ -40,31 +55,10 @@ mlops-template/
 └── src                          # Source code for use in this project.
     ├── __init__.py              # Makes src a Python module.
     │
-    ├── cli       # Scripts to create a cli tool.
+    ├── cli       # Scripts to create a CLI tool.
     |   ├── app.py     
     |   ├── requirements.txt
     |   └── Dockerfile 
-    |
-    ├── data                     # Data engineering scripts.
-    │   ├── build_features.py    
-    │   ├── cleaning.py          
-    │   ├── ingestion.py         
-    │   ├── labeling.py          
-    │   ├── splitting.py         
-    │   └── validation.py        
-    │
-    ├── models                   # ML model engineering (a folder for each model).
-    │   └── model1      
-    │       ├── dataloader.py    
-    │       ├── hyperparameters_tuning.py 
-    │       ├── model.py         
-    │       ├── predict.py       
-    │       ├── preprocessing.py 
-    │       └── train.py         
-    │
-    ├── visualization        # Scripts to create exploratory and results-oriented visualizations.
-    |   ├── evaluation.py        
-    |   └── exploration.py
     |
     └──   webapp        # Scripts to create a FastAPI microservice.
         ├── webapp.py
@@ -75,6 +69,3 @@ mlops-template/
 
 
 --------
-<p><small>Project based on the <a target="_blank" href="https://github.com/Chim-SO/cookiecutter-mlops/">cookiecutter MLOps project template</a>
-that is originally based on <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. 
-#cookiecuttermlops #cookiecutterdatascience</small></p>
