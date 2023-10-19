@@ -70,8 +70,17 @@ Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 
 --------
 
+## Prerequisites
 
-Notebook
+* The [Astro CLI]((https://docs.astronomer.io/astro/cli/install-cli?tab=linux#install-the-astro-cli))
+* Docker or [Docker Desktop for windows](https://www.docker.com/products/docker-desktop/) 
+
+
+## Exploring datasets 
+
+You can can explore some datasets by using this [gov_etl.ipynb](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/blob/master/notebooks/gov_etl.ipynb)
+
+Bellow you can see some images of it:
 
 Fetching datasets<br/>
 
@@ -82,4 +91,28 @@ Extracting, transforming, and loading a dataset<br/>
 
 <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f4d6ddb4-a6a6-494b-a715-f0459b6e2878" width=80%><br/>
 
+Running this project
+
+First things first, we need to init a new astro project. you have two options:
+
+1. Run the following command on command-line
+
+```bash
+cd src/airflow
+astro dev init
+```
+
+2. Use the Makefile command `astro-init` on command-line. Notice that you maybe need to install Makefile utility on your machine.
+
+```bash
+astro-init
+```
+
+Then use the following command to start airflow:
+
+```bash
+astro dev start
+```
+
+Now you can visit the Airflow Webserver at: http://localhost:8080 and trigger the ETL workflow
 

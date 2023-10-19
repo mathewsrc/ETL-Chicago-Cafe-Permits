@@ -1,6 +1,6 @@
 setup:
 	@echo "Setting up virtual environment"
-	python -m venv ~/.env
+	python -m venv .env
 
 install:
 	@echo "Installing dependencies"
@@ -55,6 +55,28 @@ logout:
 	@echo "Logging out of Hugging Face"
 	huggingface-cli logout
 
+astro-init:
+	@echo "Init Astro"	
+	cd src/airflow/ && astro dev init 
 
+astro-start:
+	@echo "Starting airflow components containers"
+	cd src/airflow/ && astro dev start
+
+astro-restart:
+	@echo "Restarting airflow containers"
+	astro dev restart
+
+astro-stop:
+	@echo "Stopping airflow components containers"
+	astro dev stop
+
+astro-ps:
+	@echo "Listing all Docker containers running"
+	astro dev ps
+
+webserver-port:
+	@echo "Set the airflow webserver port"
+	astro config set webserver.port 8080
 
 all: install lint test
