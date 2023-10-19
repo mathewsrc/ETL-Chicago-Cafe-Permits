@@ -91,7 +91,7 @@ Extracting, transforming, and loading a dataset<br/>
 
 <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f4d6ddb4-a6a6-494b-a715-f0459b6e2878" width=80%><br/>
 
-Running this project
+## Running this project
 
 First things first, we need to init a new astro project. you have two options:
 
@@ -114,5 +114,15 @@ Then use the following command to start airflow:
 astro dev start
 ```
 
-Now you can visit the Airflow Webserver at: http://localhost:8080 and trigger the ETL workflow
+Now you can visit the Airflow Webserver at: http://localhost:8080 and trigger the ETL workflow or run the Astro command `astro dev ps` to see all containers running
+
+```bash
+astro dev ps
+```
+
+Output
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f6127f6f-bae9-4604-927a-a0f4fa8a8d8c)
+
+
 
