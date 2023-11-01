@@ -13,6 +13,7 @@ format:
 
 lint:
 	@echo "Linting all projects with ruff"
+	chmod +x lint.sh
 	./lint.sh
 
 test:
