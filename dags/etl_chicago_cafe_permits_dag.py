@@ -8,8 +8,7 @@ from utils.drop_full_null_columns import drop_full_null_columns
 from utils.drop_missing import drop_missing
 import polars as pl
 import pandas as pd
-from loguru import logger
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from airflow.utils.helpers import chain
 from airflow.operators.bash import BashOperator
 from astro import sql as aql
@@ -152,7 +151,7 @@ def etl_chicago_cafe_permits():
         task_id="save_file_to_bigquery",
         input_data=transformed,
         output_file=File(
-        path= "include/data/cafe_permits.csv" #f"{gcs_bucket}/{{{{ task_instance_key_str }}}}/cafe_permits.csv",
+        path= f"include/data/cafe_permits_{get_time_period()}.csv" #f"{gcs_bucket}/{{{{ task_instance_key_str }}}}/cafe_permits.csv",
         #conn_id=BIGQUERY_CONN_ID,
         ),
         if_exists="replace",

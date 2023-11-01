@@ -1,4 +1,3 @@
-# include/soda/check_function.py
 def check(scan_name, data_source, checks_subpath=None, db_conn=None, project_root='include'):
     from soda.scan import Scan
 
