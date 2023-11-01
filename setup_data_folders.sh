@@ -1,2 +1,3 @@
 #!/bin/bash  
-mkdir -p ~/src/data/{raw,processed,interim,external}
+mkdir ./dags/utils && mkdir ./include/{data,reports,soda}
+

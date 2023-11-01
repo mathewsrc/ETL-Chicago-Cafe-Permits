@@ -1,0 +1,67 @@
+checks for ducks_cafe_permits:
+  - row_count:
+      warn: when < 15000
+      fail:
+        when < 10000
+        when > 22500
+      name: Check the number of rows
+  - invalid_count(street_direction) = 0:
+      name: Ensure street directions are valid (W, S, N, E)
+      valid values: ['W', 'S', 'N', 'E']
+  - invalid_count(city) = 0:
+      name: Ensure only Chicago city is present
+      valid values: ['CHICAGO']
+  - invalid_count(issued_date) = 0:
+      name: Ensure issue date values are formatted as date us (mm/dd/yyyy)
+      valid format: date us
+  - invalid_count(expiration_date) = 0:
+      name: Ensure issue date values are formatted as date us (mm/dd/yyyy)
+      valid format: date us
+  - invalid_count(payment_date) = 0:
+      name: Ensure issue date values are formatted as date us (mm/dd/yyyy)
+      valid format: date us
+  - duplicate_count(permit_number):
+      name: Ensure that all rows are unique
+      fail: when > 0 
+   # Check warns when any NULL values exist in the column
+  - missing_count(legal_name): 
+      name: Ensure that all cafe have a legal name
+      warn: when > 0
+  - missing_count(doing_business_as_name): 
+      name: Ensure that all cafe have a doing business
+      warn: when > 0
+  - schema:
+      name: Confirm that required columns are present
+      fail: 
+        when required column missing: ['permit_number', 'account_number', 'site_number', 
+                                      'legal_name', 'doing_business_as_name', 'issued_date',
+                                      'expiration_date', 'payment_date', 'address',
+                                      'address_number_start',
+                                      'address_number', 'street_direction', 'street',
+                                      'street_type', 'city', 
+                                      'state', 'zip_code', 'ward', 'police_district',
+                                      'latitude', 'longitude', 'location']
+
+        when wrong column type:
+          permit_number: bigint
+          account_number: bigint
+          site_number: bigint
+          legal_name: varchar
+          doing_business_as_name: varchar
+          issued_date: varchar
+          expiration_date: varchar
+          payment_date: varchar
+          address: varchar
+          address_number_start: bigint
+          address_number: bigint
+          street_direction: varchar
+          street: varchar
+          street_type: varchar
+          city: varchar
+          state: varchar
+          zip_code: double
+          ward: bigint
+          police_district: double
+          latitude: double
+          longitude: double
+          location: varchar

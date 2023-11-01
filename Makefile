@@ -1,6 +1,6 @@
 setup:
 	@echo "Setting up virtual environment"
-	python -m venv .env
+	python -m venv .venv
 
 install:
 	@echo "Installing dependencies"
@@ -57,11 +57,11 @@ logout:
 
 astro-init:
 	@echo "Init Astro"	
-	cd src/airflow/ && astro dev init 
+	astro dev init 
 
 astro-start:
 	@echo "Starting airflow components containers"
-	cd src/airflow/ && astro dev start
+	astro dev start
 
 astro-restart:
 	@echo "Restarting airflow containers"
@@ -75,8 +75,26 @@ astro-ps:
 	@echo "Listing all Docker containers running"
 	astro dev ps
 
+astro-clear:
+	@echo "Cleaning all astro containers"
+	astro dev kill
+
+astro-bash:
+	@echo "Opening bash inside container"
+	astro dev bash
+
+astro-parse:
+	@echo "Parsing dags to check errors"
+	astro dev parse
+
 webserver-port:
 	@echo "Set the airflow webserver port"
 	astro config set webserver.port 8080
+
+soda-test:
+	soda test-connection -d permits -c include/soda/configuration.yml -V
+
+soda-scan:
+	soda scan -d permits -c include/soda/configuration.yml include/soda/checks/transformation.yml
 
 all: install lint test

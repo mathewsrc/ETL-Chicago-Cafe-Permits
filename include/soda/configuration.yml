@@ -1,0 +1,5 @@
+data_source ducks_cafe_permits:
+  type: duckdb
+  database: include/my_local_ducks.db
+  read_only: false
+  schema_name: public

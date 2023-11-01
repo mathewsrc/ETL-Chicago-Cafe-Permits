@@ -4,5 +4,6 @@ astro
 airflow_settings.yaml
 logs/
 .venv
+.local_env
 airflow.db
 airflow.cfg

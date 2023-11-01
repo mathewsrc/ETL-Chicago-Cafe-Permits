@@ -27,44 +27,47 @@ Project Organization
 
 ```
 Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
-├── .devcontainer # Tells VS Code how to access (or create) a development container with a well-defined tool and runtime stack
-|   └── devcontainer.json
-├── .github # GitHub Actions for continuous integration and deployment 
+├── .devcontainer                        # VS Code development container 
+|   └── devcontainer.json                
+├── .github                              # GitHub Actions for continuous integration (CI) 
 |   └── workflows
-|       └── main.yml
-├── LICENSE     
-├── README.md                  
-├── Makefile                     # Makefile with commands                    
-├── configs                      # Config files 
-│   └── configs.yaml              
-│
-├── data                         
-│   ├── external                 # Data from third-party sources.
-│   ├── interim                  # Intermediate data that has been transformed.
-│   ├── processed                # The final, canonical data sets for modeling.
-│   └── raw                      # The original, immutable data dump.
-│
-├── docs                         # Project documentation.
-│
-├── notebooks                    # Jupyter notebooks.
-│
-├── reports                      # Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures                  # Generated graphics and figures to be used in reporting.
-│
-├── requirements.txt             # The requirements file for reproducing the analysis environment.
-└── src                          # Source code for use in this project.
-    ├── __init__.py              # Makes src a Python module.
-    │
-    ├── cli       # Scripts to create a CLI tool.
-    |   ├── app.py     
-    |   ├── requirements.txt
-    |   └── Dockerfile 
-    |
-    └──   webapp        # Scripts to create a FastAPI microservice.
-        ├── webapp.py
-        ├── requirements.txt    
-        └── Dockerfile
-      
+|       └── main.yml                     # GitHub Actions configurations 
+├── dags
+|   └── utils
+|        ├── drop_duplicates.py          # Method to remove duplicates
+|        ├── drop_full_null_columns.py   # Method to drop columns if all values are null
+|        ├── drop_full_null_rows.py      # Method to drop rows if all values in a row are null
+|        ├── drop_missing.py             # Method to drop rows with missing values in specific columns
+|        ├── format_url.py               # Method to format the url
+|        ├── get_time_period.py          # Method to get currently time period
+|        ├── modify_file_name.py         # Method to create a formatted file name
+|        └── rename_columns.py           # Method to rename DataFrame columns name
+├── include
+|   ├── data                             # Directory to save CSV files
+|   ├── reports                          # Directory with reports
+|   └── soda                             # Directory with SODA files
+|        ├── checks                      # Directory containing data quality rules yml files
+|        |    └── transformation.yml     # Data quality rules for transformation step
+|        ├── check_function.py           # Helpful function for run SODA data quality checks 
+|        └── configuration.yml           # Configurations to connect Soda to a data source (DuckDB)
+├── README.md                               
+├── notebooks                            # COLAB notebooks
+├── plugins
+├── tests                                # Diretory for Python test files
+├── .dockerignore
+├── .gitignore
+├── airflow_setttings.yaml
+├── format.sh                            # Bash script to format code with ruff  
+├── LICENSE   
+├── lint.sh                              # Bash script to lint code with ruff
+├── Makefile                             # Makefile with some helpfull commands  
+├── packages.txt
+├── README.md 
+├── requirements.txt                     # Required Python libraries 
+├── setup_data_folders.sh                # Bash script to create some directories
+├── source_env_linux.sh                  # Bash script to create an Python virtual enviroment in linux
+├── source_env_windows.sh                # Bash script to create an Python virtual enviroment in windows
+└── test.sh                              # Bash script to test code with pytest 
 ```
 
 
@@ -72,13 +75,16 @@ Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 
 ## Prerequisites
 
-* The [Astro CLI]((https://docs.astronomer.io/astro/cli/install-cli?tab=linux#install-the-astro-cli))
-* Docker or [Docker Desktop for windows](https://www.docker.com/products/docker-desktop/) 
+* The Astro CLI installed. You can find installation instructions in this link [Astro CLI](https://docs.astronomer.io/astro/cli/install-cli?tab=linux#install-the-astro-cli)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
+* Make utility*
+* Airflow DuckDB connection (See **Creating a connection to DuckDB** section bellow)
 
+*Optional
 
 ## Exploring datasets 
 
-You can can explore some datasets by using this [gov_etl.ipynb](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/blob/master/notebooks/gov_etl.ipynb)
+You can can explore some datasets by using this notebook: [gov_etl.ipynb](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/blob/master/notebooks/gov_etl.ipynb)
 
 Bellow you can see some images of it:
 
@@ -93,26 +99,46 @@ Extracting, transforming, and loading a dataset<br/>
 
 Running this project
 
-First things first, we need to init a new astro project. you have two options:
+First things first, we need to start astro project. you have two options:
 
-1. Run the following command on command-line
-
-```bash
-cd src/airflow
-astro dev init
-```
-
-2. Use the Makefile command `astro-init` on command-line. Notice that you maybe need to install Makefile utility on your machine.
-
-```bash
-astro-init
-```
-
-Then use the following command to start airflow:
+1. Run the following command on Terminal
 
 ```bash
 astro dev start
 ```
 
-Now you can visit the Airflow Webserver at: http://localhost:8080 and trigger the ETL workflow
+2. Use the Makefile command `astro-start` on `Terminal`. Notice that you maybe need to install Makefile utility on your machine.
+
+```bash
+astro-start
+```
+
+Now you can visit the Airflow Webserver at: http://localhost:8080 and trigger the ETL workflow or run the Astro command `astro dev ps` to see running containers 
+
+```bash
+astro dev ps
+```
+
+Output
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f6127f6f-bae9-4604-927a-a0f4fa8a8d8c)
+
+
+## Creating a new connection to DuckDB
+
+
+
+
+Next, unpause by clicking in the toggle button next to the dag name
+
+!insert image here
+
+
+Finally, click on the play button to trigger the workflow
+
+!insert image here
+
+
+If everything goes well you will see a result like this one bellow
+
 

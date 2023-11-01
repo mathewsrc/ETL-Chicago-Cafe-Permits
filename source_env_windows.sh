@@ -1,2 +1,2 @@
 #!/bin/bash
-source ~/.env/Scripts/activate
+source ~/.venv/Scripts/activate
