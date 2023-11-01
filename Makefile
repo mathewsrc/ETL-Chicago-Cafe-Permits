@@ -9,7 +9,7 @@ install:
 
 format:
 	@echo "Formatting all projects with black"
-	chmod +x lint.sh
+	chmod +x format.sh
 	./format.sh
 
 lint:
@@ -19,7 +19,7 @@ lint:
 
 test:
 	@echo "Testing all projects with pytest"
-	chmod +x lint.sh
+	chmod +x test.sh
 	./test.sh
 
 docker-build:
