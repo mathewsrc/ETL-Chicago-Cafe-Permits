@@ -97,7 +97,7 @@ Extracting, transforming, and loading a dataset<br/>
 
 <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f4d6ddb4-a6a6-494b-a715-f0459b6e2878" width=80%><br/>
 
-Running this project
+## Running this project
 
 First things first, we need to start astro project. you have two options:
 
