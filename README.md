@@ -1,4 +1,4 @@
-Streamlined ETL Process: Unleashing Polars, Dataprep and Airflow
+Streamlined ETL Process: Unleashing Polars, YData Profiling and Airflow
 ==============================
 
 Project Summary:
