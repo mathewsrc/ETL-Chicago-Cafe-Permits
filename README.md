@@ -9,8 +9,7 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 Workflow with Airflow
 
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/66deb102-1ed0-4c73-aa41-bf954f8796e3)
-
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/339a2287-28bd-469a-8fcf-8faa1df8bc06)
 
 Project Objectives:
 
@@ -163,7 +162,7 @@ If everything goes well you will see a result like this one below
 
 GitHub Action workflow
 
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/924c349f-b827-47d9-ad43-45d77e86a8e3)
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/4a13a7bd-080f-49a1-aaaa-db353180385f)
 
 
 ### TODO
