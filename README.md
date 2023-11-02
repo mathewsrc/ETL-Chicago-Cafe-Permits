@@ -7,7 +7,7 @@ Project Summary:
 
 This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits] (https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
 
-Workflow with Airflow
+### Workflow with Airflow
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/339a2287-28bd-469a-8fcf-8faa1df8bc06)
 
@@ -160,7 +160,7 @@ If everything goes well you will see a result like this one below
 ## TODO !insert image here
 
 
-GitHub Action workflow
+### GitHub Action workflow
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/4a13a7bd-080f-49a1-aaaa-db353180385f)
 
