@@ -149,6 +149,7 @@ If everything goes well you will see a result like this one bellow
 - [ ] Try to upload data to BigQuery and create a dashboard with Looker
 - [ ] Record how to create a DuckDB connection in airflow
 - [ ] Record workflow running
+- [ ] Create the architecture image of the project
 - [ ] Completed!
 
 
