@@ -5,7 +5,7 @@ Streamlined ETL Process: Unleashing  Airflow, Polars, SODA, and YData Profiling
 
 Project Summary:
 
-This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, SODA, YData Profiling, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits] (https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
+This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits] (https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
 
 Workflow with Airflow
 
@@ -24,7 +24,7 @@ Loading: Transformed data is saved in CSV files using Polars.
 
 Logging: Loguru is chosen for logging, ensuring transparency, and facilitating debugging throughout the ETL process.
 
-Data quality: SODA is employed to ensure data quality.
+Data quality: Soda is employed to ensure data quality.
 
 Tests: Pytest is employed for code validation.
 
