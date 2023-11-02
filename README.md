@@ -11,7 +11,7 @@ Extraction: I utilize the requests library and BeautifulSoup to scrape datasets 
 
 Transformation: Data manipulation and cleaning are accomplished using Polars, a high-performance data manipulation library written in Rust.
 
-Data Profiling: Dataprep is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
+Data Profiling: YData Profiling is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
 
 Loading: Transformed data is saved in CSV files using Polars.
 
@@ -126,19 +126,29 @@ Output
 
 ## Creating a new connection to DuckDB
 
-
-
+## TODO
 
 Next, unpause by clicking in the toggle button next to the dag name
 
-!insert image here
+## TODO !insert image here
 
 
 Finally, click on the play button to trigger the workflow
 
-!insert image here
+## TODO !insert image here
 
 
 If everything goes well you will see a result like this one bellow
+
+## TODO !insert image here
+
+
+### TODO
+- [ ] Add column description to reports - [column-descriptions](https://docs.profiling.ydata.ai/4.6/features/metadata/#column-descriptions)
+- [ ] Try data modeling with DBT
+- [ ] Try to upload data to BigQuery and create a dashboard with Looker
+- [ ] Record how to create a DuckDB connection in airflow
+- [ ] Record workflow running
+- [ ] Completed!
 
 
