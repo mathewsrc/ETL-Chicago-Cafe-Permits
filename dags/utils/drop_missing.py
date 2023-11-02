@@ -2,17 +2,13 @@ import polars as pl
 
 def drop_missing(df: pl.DataFrame):
     """
-    Drops rows containing null values in specified columns.
+    Drops rows containing null values.
 
     Args:
         df (pl.DataFrame): The DataFrame to process.
 
     Returns:
-        pl.DataFrame: A new DataFrame with rows removed where there are null values in the following columns:
-            - permit_number
-            - city
-            - legal_name
-            - doing_business_as_name
+        pl.DataFrame: A new DataFrame with rows removed where there are null values 
 
     Example:
         df = pl.DataFrame({
@@ -27,4 +23,4 @@ def drop_missing(df: pl.DataFrame):
         This function will remove rows that have null values in any of the specified columns.
 
     """
-    return df.drop_nulls(subset=["permit_number", "city", "legal_name", "doing_business_as_name"])
+    return df.drop_nulls()

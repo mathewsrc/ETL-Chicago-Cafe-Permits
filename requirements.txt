@@ -7,6 +7,11 @@ apache-airflow-providers-apache-spark==4.2.0
 apache-airflow-providers-docker==3.8.0
 apache-airflow-providers-http==4.6.0
 
+# Data Quality
+#soda-duckdb
+soda-core-duckdb==3.0.45
+soda-core-bigquery==3.0.45
+
 # webscraping
 beautifulsoup4==4.12.2
 requests==2.31.0

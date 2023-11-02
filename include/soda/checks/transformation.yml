@@ -1,4 +1,4 @@
-checks for ducks_cafe_permits:
+checks for transformed:
   - row_count:
       warn: when < 15000
       fail:
@@ -26,10 +26,18 @@ checks for ducks_cafe_permits:
    # Check warns when any NULL values exist in the column
   - missing_count(legal_name): 
       name: Ensure that all cafe have a legal name
-      warn: when > 0
+      fail: when > 0
   - missing_count(doing_business_as_name): 
       name: Ensure that all cafe have a doing business
-      warn: when > 0
+      fail: when > 0
+  - missing_percent(street_type) < 90%:
+      name: Ensure that at least 90% of cafes have street type
+  - missing_percent(police_district) < 90%:
+      name: Ensure that at least 90% of cafes have police district 
+  - missing_percent(latitude) < 90%:
+      name: Ensure that at least 90% of cafes have latitude
+  - missing_percent(longitude) < 90%:
+      name: Ensure that at least 90% of cafes have longitude
   - schema:
       name: Confirm that required columns are present
       fail: 

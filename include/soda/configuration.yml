@@ -1,4 +1,4 @@
-data_source ducks_cafe_permits:
+data_source transformed:
   type: duckdb
   database: include/my_local_ducks.db
   read_only: false

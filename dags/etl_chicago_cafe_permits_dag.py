@@ -17,7 +17,9 @@ from astro.sql.table import Table
 from pendulum import datetime, duration
 import duckdb
 import logging
+import os
 from include.soda.check_function import check
+from ydata_profiling import ProfileReport, compare
 
 # Reference: https://catalog.data.gov/dataset/sidewalk-cafe-permits
 
@@ -25,13 +27,15 @@ from include.soda.check_function import check
 task_logger = logging.getLogger("airflow.task")
 
 SODA_PATH = "include/soda"
-DUCKDB_CONN_ID = "duckdb_conn"  
+DUCKDB_CONN_ID = "duckdb_conn"
 DUCKDB_POOL_NAME = "duckdb_pool"
 LOCAL_DUCKDB_STORAGE_PATH = "include/my_local_ducks.db"
 BIGQUERY_CONN_ID = "bigquery_conn"
 
+
 @aql.dataframe(pool=DUCKDB_POOL_NAME)
 def transform_data(df: pd.DataFrame):
+    """Apply some transformations to DataFrame"""
     df_pl = pl.from_pandas(df).lazy()
     df_pl = (
         df_pl.pipe(rename_columns_name)  # Convert all text columns to lowercase
@@ -40,39 +44,69 @@ def transform_data(df: pd.DataFrame):
         .pipe(rename_columns_name)
         .pipe(drop_missing)
     )
-    
+
     df_pl = drop_full_null_columns(df_pl.collect())
     return df_pl.to_pandas()
 
 
+@aql.dataframe(pool=DUCKDB_POOL_NAME)
+def create_report(df: pd.DataFrame, prefix: str):
+    """Create a report from DataFrame"""
+    profile = ProfileReport(df, title=f"Chicago Sidewalk Cafe Permits - {prefix.capitalize()}")
+    profile.to_file(
+        os.path.join(
+            "include/reports/", f"chicago_{prefix}_profiling_report_{get_time_period()}.html"
+        )
+    )
+
+
+@aql.dataframe(pool=DUCKDB_POOL_NAME)
+def create_comparison_report(raw_df: pd.DataFrame, trans_df: pd.DataFrame):
+    """Create a comparison report"""
+    raw_report = ProfileReport(raw_df, title="Chicago Sidewalk Cafe Permits - Raw data")
+    transformed_report = ProfileReport(trans_df, title="Chicago Sidewalk Cafe Permits - Transformed data")
+    comparison_report = compare([raw_report, transformed_report])
+    comparison_report.to_file(
+        os.path.join("include/reports/", f"chicago_comparison_{get_time_period()}.html")
+    )
+
+
 @aql.transform(pool=DUCKDB_POOL_NAME)
 def count_items(in_table):
+    """Count the total of rows in table"""
     return "SELECT count(*) FROM {{ in_table }}"
-    
-    
+
+
 @aql.dataframe(pool=DUCKDB_POOL_NAME)
 def soda_check_transformation(df: pd.DataFrame):
-    with duckdb.connect(":memory:") as con:
-            con.sql(
-                """\
-                CREATE VIEW ducks_cafe_permits AS
-                SELECT *
-                FROM df
-                """
-            )
-    
-            check(scan_name='transformation', 
-                  db_conn=con, 
-                  data_source='duckdb',
-                  checks_subpath=None)
-    
+    """Apply data quality check with SODA"""
+    con = duckdb.connect(":memory:")
+    con.sql(
+        """\
+        CREATE VIEW transformed AS
+        SELECT *
+        FROM df
+        """
+    )
 
+    result = check(
+        scan_name="transformation",
+        db_conn=con,
+        data_source="duckdb",
+        checks_subpath=None,
+    )
+    con.close()
+    return result
+
+
+# Define some default arguments for DAG
 default_args = {
     "owner": "Matheus",
     "depends_on_past": False,
     "retries": 1,
     "retry_delay": duration(seconds=10),
 }
+
 
 @dag(
     start_date=datetime(2023, 10, 1),
@@ -81,10 +115,11 @@ default_args = {
     tags=["Sidewalk Cafe Permits"],
     default_args=default_args,
     description="""A list of permits for sidewalk cafes -- outdoor 
-    restaurant seating on the public way. Businesses may begin sidewalk
-    cafe operations on March 1 and operate through December 1.""",
+    restaurant seating on the public way.""",
 )
 def etl_chicago_cafe_permits():
+    """DAG to extract, transform and load Chicago cafe permits data"""
+
     name, url = (
         "Sidewalk Cafe Permits",
         "https://data.cityofchicago.org/api/views/nxj5-ix6z/rows.csv?accessType=DOWNLOAD",
@@ -100,11 +135,13 @@ def etl_chicago_cafe_permits():
     task_logger.info(f"Selected item URL (Formatted): {url}")
     task_logger.info(f"Selected item name (Formatted): {name}")
 
+    # Create a pool to avoid operations conflits in database
     create_duckdb_pool = BashOperator(
         task_id="create_duckdb_pool",
         bash_command=f"airflow pools list | grep -q '{DUCKDB_POOL_NAME}' || airflow pools set {DUCKDB_POOL_NAME} 1 'Pool for duckdb'",
     )
 
+    # Load file and save it as Table
     load_ducks = aql.load_file(
         task_id="load_csv_to_duckdb",
         input_file=File(
@@ -116,50 +153,44 @@ def etl_chicago_cafe_permits():
         if_exists="replace",
     )
 
-    create_duckdb_pool >> load_ducks 
-
+    # Count the total rows in raw table
     count = count_items(load_ducks)
-    
-    print(count)
-    
     task_logger.info(f"COUNT(*) before transformations: {count}")
-    
+
+    # Transform raw table and save it as Table
     transformed = transform_data(
         df=load_ducks,
-        output_table=Table(
-            name="ducks_cafe_permits", conn_id=DUCKDB_CONN_ID
-        ),
+        output_table=Table(name="ducks_cafe_permits", conn_id=DUCKDB_CONN_ID),
     )
-       
+
+    # Count the total rows in transformed table
     count2 = count_items(transformed)
-    
-    print(count2)
-    
     task_logger.info(f"COUNT(*) after transformations: {count}")
 
-    # @task.external_python(python='/usr/local/airflow/soda_venv/bin/python')
-    # def check_transformation(scan_name="transformation"):
-    #     from include.soda.check_function import check
-
-    #     return check(scan_name, None)
-
-
     # Write SQL tables to CSV or parquet files and store them
-    #gcs_bucket = os.getenv("GCS_BUCKET", "gs://dag-authoring")
-
+    # gcs_bucket = os.getenv("GCS_BUCKET", "gs://dag-authoring")
     export_file = aql.export_to_file(
         task_id="save_file_to_bigquery",
         input_data=transformed,
         output_file=File(
-        path= f"include/data/cafe_permits_{get_time_period()}.csv" #f"{gcs_bucket}/{{{{ task_instance_key_str }}}}/cafe_permits.csv",
-        #conn_id=BIGQUERY_CONN_ID,
+            path=f"include/data/chicago_sidewalk_cafe_permits_{get_time_period()}.csv"  # f"{gcs_bucket}/{{{{ task_instance_key_str }}}}/cafe_permits.csv",
+            # conn_id=BIGQUERY_CONN_ID,
         ),
         if_exists="replace",
     )
 
-    chain(soda_check_transformation(transformed),
-          export_file,
-          aql.cleanup()
-        )   
+    # Chain tasks
+    chain(
+        create_duckdb_pool,
+        load_ducks,
+        [create_report(df=load_ducks, prefix="raw"), count],
+        transformed,
+        soda_check_transformation(transformed),
+        [create_report(df=transformed, prefix="transformed"), count2],
+        create_comparison_report(raw_df=load_ducks, trans_df=transformed),
+        export_file,
+        aql.cleanup(),
+    )
+
 
 etl_chicago_cafe_permits()

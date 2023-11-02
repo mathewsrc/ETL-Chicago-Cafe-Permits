@@ -8,7 +8,7 @@ install:
 		pip install -r requirements.txt
 
 format:
-	@echo "Formatting all projects with black"
+	@echo "Formatting all projects with ruff"
 	chmod +x format.sh
 	./format.sh
 
@@ -95,9 +95,9 @@ webserver-port:
 	astro config set webserver.port 8080
 
 soda-test:
-	soda test-connection -d permits -c include/soda/configuration.yml -V
+	soda test-connection -d transformed -c include/soda/configuration.yml -V
 
 soda-scan:
-	soda scan -d permits -c include/soda/configuration.yml include/soda/checks/transformation.yml
+	soda scan -d transformed -c include/soda/configuration.yml include/soda/checks/transformation.yml
 
 all: install lint test
