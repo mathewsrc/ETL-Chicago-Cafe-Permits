@@ -1,4 +1,5 @@
-Streamlined ETL Process: Unleashing  Airflow, Polars, SODA, and YData Profiling
+[![Python application](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml/badge.svg)](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml)
+
 Streamlined ETL Process: Unleashing  Airflow, Polars, SODA, and YData Profiling
 ==============================
 
@@ -16,11 +17,9 @@ Workflow with Airflow
 Project Objectives:
 
 Extraction: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov and the Chicago Sidewalk Cafe Permits dataset.
-Extraction: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov and the Chicago Sidewalk Cafe Permits dataset.
 
 Transformation: Data manipulation and cleaning are accomplished using Polars, a high-performance data manipulation library written in Rust.
 
-Data Profiling: YData Profiling is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
 Data Profiling: YData Profiling is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
 
 Loading: Transformed data is saved in CSV files using Polars.
@@ -82,7 +81,6 @@ Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 |        ├── checks                      # Directory containing data quality rules yml files
 |        |    └── transformation.yml     # Data quality rules for transformation step
 |        ├── check_function.py           # Helpful function for running SODA data quality checks 
-|        ├── check_function.py           # Helpful function for running SODA data quality checks 
 |        └── configuration.yml           # Configurations to connect Soda to a data source (DuckDB)
 ├── README.md                               
 ├── notebooks                            # COLAB notebooks
@@ -95,13 +93,10 @@ Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 ├── LICENSE   
 ├── lint.sh                              # Bash script to lint code with ruff
 ├── Makefile                             # Makefile with some helpful commands  
-├── Makefile                             # Makefile with some helpful commands  
 ├── packages.txt
 ├── README.md 
 ├── requirements.txt                     # Required Python libraries 
 ├── setup_data_folders.sh                # Bash script to create some directories
-├── source_env_linux.sh                  # Bash script to create a Python virtual environment in linux
-├── source_env_windows.sh                # Bash script to create a Python virtual environment in windows
 ├── source_env_linux.sh                  # Bash script to create a Python virtual environment in linux
 ├── source_env_windows.sh                # Bash script to create a Python virtual environment in windows
 └── test.sh                              # Bash script to test code with pytest 
@@ -122,9 +117,7 @@ Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 ## Exploring datasets 
 
 You can explore some datasets by using this notebook: [gov_etl.ipynb](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/blob/master/notebooks/gov_etl.ipynb)
-You can explore some datasets by using this notebook: [gov_etl.ipynb](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/blob/master/notebooks/gov_etl.ipynb)
 
-Below you can see some images of it:
 Below you can see some images of it:
 
 Fetching datasets<br/>
@@ -168,9 +161,7 @@ Output
 ## TODO
 
 Next, unpause by clicking on the toggle button next to the DAG name
-Next, unpause by clicking on the toggle button next to the DAG name
 
-## TODO !insert image here
 ## TODO !insert image here
 
 
@@ -182,6 +173,11 @@ Finally, click on the play button to trigger the workflow
 If everything goes well you will see a result like this one below
 
 ## TODO !insert image here
+
+
+GitHub Action workflow
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/924c349f-b827-47d9-ad43-45d77e86a8e3)
 
 
 ### TODO
