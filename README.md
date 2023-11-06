@@ -1,43 +1,47 @@
-[![CI](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml/badge.svg)](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml)
+[![GitHub Actions - CI](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml/badge.svg)](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml)
 
-Streamlined ETL Process: Unleashing  Airflow, Polars, SODA, and YData Profiling
+# Streamlined ETL Process: Unleashing  Airflow, Polars, SODA, and YData Profiling
 ==============================
 
-Project Summary:
+## Project Summary:
 
 This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits] (https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
+
+## Architecture Overview (warning: the architecture can change in the future)
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/b89ac39b-ebee-4240-9320-34b2c5f48b62)
 
 ### Workflow with Airflow
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/339a2287-28bd-469a-8fcf-8faa1df8bc06)
 
-Project Objectives:
+## Project Objectives:
 
-Extraction: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov and the Chicago Sidewalk Cafe Permits dataset.
+**Extraction**: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov and the Chicago Sidewalk Cafe Permits dataset.
 
-Transformation: Data manipulation and cleaning are accomplished using Polars, a high-performance data manipulation library written in Rust.
+**Transformation**: Data manipulation and cleaning are accomplished using Polars, a high-performance data manipulation library written in Rust.
 
-Data Profiling: YData Profiling is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
+**Data Profiling**: YData Profiling is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
 
-Loading: Transformed data is saved in CSV files using Polars.
+**Loading**: Transformed data is saved in CSV files using Polars.
 
-Logging: Loguru is chosen for logging, ensuring transparency, and facilitating debugging throughout the ETL process.
+**Logging**: Loguru is chosen for logging, ensuring transparency, and facilitating debugging throughout the ETL process.
 
-Data quality: Soda is employed to ensure data quality.
+**Data quality**: Soda is employed to ensure data quality.
 
-Tests: Pytest is employed for code validation.
+**Tests**: Pytest is employed for code validation.
 
-Linting: Ruff is employed to ensure code quality.
+**Linting**: Ruff is employed to ensure code quality.
 
-Formatting: Ruff is again employed to ensure code quality.
+**Formatting**: Ruff is again employed to ensure code quality.
 
-Orchestration: Airflow is employed to orchestrate the whole ETL process.
+**Orchestration**: Airflow is employed to orchestrate the whole ETL process.
 
-CI: GitHub Actions is used for continuous integration to push code to GitHub. 
+**Continuos Integration**: GitHub Actions is used for continuous integration to push code to GitHub. 
 
 By automating these ETL tasks, I establish a robust data pipeline that transforms raw data into valuable assets, supporting informed decision-making and data-driven insights.
 
-Project Organization
+## Project Organization
 ------------
 
 ```
@@ -160,7 +164,7 @@ If everything goes well you will see a result like this one below
 ## TODO !insert image here
 
 
-### GitHub Action workflow
+## GitHub Action workflow (Continuos Integration)
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/4a13a7bd-080f-49a1-aaaa-db353180385f)
 
