@@ -20,7 +20,29 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 ### Workflow with Airflow (warning: the workflow can change in the future)
 
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/ab7f4353-f30b-4f8a-aaf2-4b47c040ae23)
+1. I created a concurrency of 1 using the BashOperator to avoid two or more executions against DuckDB as allowing  two or more calls to DuckDB would cause an error
+2. I loaded the CSV file using an HTTP call by leveraging the Astro Python SDK `load_file()` function and the DuckDB connection that I created in Airflow `Admin/Connections`
+3. Then, I created two tasks: one to count the number of rows in the table and another to check raw data quality using [Soda](https://docs.soda.io/)
+
+   3.1 Check the number of rows
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/7861bcba-09d4-4f3b-b00f-5a86e6288f40)
+
+   3.2 Confirm that the required columns are present 
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/d9a907be-c061-4341-85cd-1b202221bf73)
+
+   3.3 Check columns data type
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/70904470-35c5-487a-be84-9fa431524d00)
+
+4. Finally, I create a transform task to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
+
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/133dfd46-19f3-4f52-aa74-2f2141361a42)
+
+
 
 ## Project Objectives:
 
