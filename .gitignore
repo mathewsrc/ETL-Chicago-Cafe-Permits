@@ -8,6 +8,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+local_env/
 build/
 develop-eggs/
 dist/
@@ -87,3 +88,10 @@ target/
 
 # Mypy cache
 .mypy_cache/
+
+
+# virtual enviroment
+.venv
+
+include/my_local_ducks.db.wal
+include/my_local_ducks.db
