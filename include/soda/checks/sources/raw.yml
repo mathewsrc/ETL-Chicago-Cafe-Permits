@@ -1,0 +1,42 @@
+checks for raw_permits_view:
+  - row_count:
+      fail:
+        when < 22224
+        when > 22224
+      name: Check the number of rows
+
+  - schema:
+      name: Confirm that required columns are present
+      fail: 
+        when required column missing: ['permit number', 'account number', 'site number', 
+                                      'legal name', 'doing business as name', 'issued date',
+                                      'expiration date', 'payment date', 'address',
+                                      'address number start',
+                                      'address number', 'street direction', 'street',
+                                      'street type', 'city', 
+                                      'state', 'zip code', 'ward', 'police district',
+                                      'latitude', 'longitude', 'location']
+
+        when wrong column type:
+          permit number: bigint
+          account number: bigint
+          site number: bigint
+          legal name: varchar
+          doing business as name: varchar
+          issued date: varchar
+          expiration date: varchar
+          payment date: varchar
+          address: varchar
+          address number start: bigint
+          address number: bigint
+          street direction: varchar
+          street: varchar
+          street type: varchar
+          city: varchar
+          state: varchar
+          zip code: double
+          ward: bigint
+          police district: double
+          latitude: double
+          longitude: double
+          location: varchar
