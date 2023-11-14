@@ -95,9 +95,9 @@ webserver-port:
 	astro config set webserver.port 8080
 
 soda-test:
-	soda test-connection -d transformed -c include/soda/configuration.yml -V
+	soda test-connection -d duckdb -c include/soda/configuration.yml -V
 
 soda-scan:
-	soda scan -d transformed -c include/soda/configuration.yml include/soda/checks/transformation.yml
+	soda scan -d duckdb -c include/soda/configuration.yml include/soda/checks/transformation.yml
 
 all: install lint test

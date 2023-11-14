@@ -1,5 +1,5 @@
 # include/soda/check_function.py
-def check(scan_name, data_source, checks_subpath=None, db_conn=None, project_root='include'):
+def check(scan_name, data_source, checks_subpath=None, duckdb_conn=None, project_root='include'):
     from soda.scan import Scan
 
     print('Running Soda Scan ...')
@@ -11,15 +11,13 @@ def check(scan_name, data_source, checks_subpath=None, db_conn=None, project_roo
 
     scan = Scan()
     scan.set_verbose()
-    if db_conn != None:
-        scan.add_duckdb_connection(db_conn)
-    else:
-        scan.add_configuration_yaml_file(config_file)
+    if duckdb_conn != None:
+        scan.add_duckdb_connection(duckdb_conn)
+    #scan.add_configuration_yaml_file(config_file) this is not working with DuckDB
     scan.set_data_source_name(data_source)
     scan.add_sodacl_yaml_files(checks_path)
     scan.set_scan_definition_name(scan_name)
     result = scan.execute()
-    #scan.assert_no_checks_fail()
     print(scan.get_logs_text())
 
     if result != 0:

@@ -15,11 +15,12 @@ from astro import sql as aql
 from astro.files import File
 from astro.sql.table import Table
 from pendulum import datetime, duration
-import duckdb
 import logging
 import os
 from include.soda.check_function import check
 from ydata_profiling import ProfileReport, compare
+from duckdb_provider.hooks.duckdb_hook import DuckDBHook
+
 
 # Reference: https://catalog.data.gov/dataset/sidewalk-cafe-permits
 
@@ -33,7 +34,7 @@ LOCAL_DUCKDB_STORAGE_PATH = "include/my_local_ducks.db"
 BIGQUERY_CONN_ID = "bigquery_conn"
 
 
-@aql.dataframe(pool=DUCKDB_POOL_NAME)
+@aql.dataframe(pool=DUCKDB_POOL_NAME, columns_names_capitalization="original")
 def transform_data(df: pd.DataFrame):
     """Apply some transformations to DataFrame"""
     df_pl = pl.from_pandas(df).lazy()
@@ -41,7 +42,6 @@ def transform_data(df: pd.DataFrame):
         df_pl.pipe(rename_columns_name)  # Convert all text columns to lowercase
         .pipe(drop_duplicates)  # Drop duplicate rows
         .pipe(drop_full_null_rows)  # Drop a row only if all values are null
-        .pipe(rename_columns_name)
         .pipe(drop_missing)
     )
 
@@ -52,10 +52,13 @@ def transform_data(df: pd.DataFrame):
 @aql.dataframe(pool=DUCKDB_POOL_NAME)
 def create_report(df: pd.DataFrame, prefix: str):
     """Create a report from DataFrame"""
-    profile = ProfileReport(df, title=f"Chicago Sidewalk Cafe Permits - {prefix.capitalize()}")
+    profile = ProfileReport(
+        df, title=f"Chicago Sidewalk Cafe Permits - {prefix.capitalize()}"
+    )
     profile.to_file(
         os.path.join(
-            "include/reports/", f"chicago_{prefix}_profiling_report_{get_time_period()}.html"
+            "include/reports/",
+            f"chicago_{prefix}_profiling_report_{get_time_period()}.html",
         )
     )
 
@@ -64,7 +67,9 @@ def create_report(df: pd.DataFrame, prefix: str):
 def create_comparison_report(raw_df: pd.DataFrame, trans_df: pd.DataFrame):
     """Create a comparison report"""
     raw_report = ProfileReport(raw_df, title="Chicago Sidewalk Cafe Permits - Raw data")
-    transformed_report = ProfileReport(trans_df, title="Chicago Sidewalk Cafe Permits - Transformed data")
+    transformed_report = ProfileReport(
+        trans_df, title="Chicago Sidewalk Cafe Permits - Transformed data"
+    )
     comparison_report = compare([raw_report, transformed_report])
     comparison_report.to_file(
         os.path.join("include/reports/", f"chicago_comparison_{get_time_period()}.html")
@@ -78,22 +83,42 @@ def count_items(in_table):
 
 
 @aql.dataframe(pool=DUCKDB_POOL_NAME)
-def soda_check_transformation(df: pd.DataFrame):
+def soda_check_transform(df: pd.DataFrame):
     """Apply data quality check with SODA"""
-    con = duckdb.connect(":memory:")
+    my_duck_hook = DuckDBHook.get_hook(DUCKDB_CONN_ID)
+    con = my_duck_hook.get_conn()
     con.sql(
         """\
-        CREATE VIEW transformed AS
+        CREATE OR REPLACE VIEW transformed_permits_view AS
+        SELECT *
+        FROM df
+        """
+    )
+    result = check(
+        scan_name="transformation",
+        duckdb_conn=con,
+        data_source="duckdb",
+        checks_subpath="transform",
+    )
+    con.close()
+    return result
+
+
+@aql.dataframe(pool=DUCKDB_POOL_NAME, columns_names_capitalization="lower")
+def soda_check_raw(df: pd.DataFrame):
+    """Apply data quality check with SODA"""
+    my_duck_hook = DuckDBHook.get_hook(DUCKDB_CONN_ID)
+    con = my_duck_hook.get_conn()
+    con.sql(
+        """\
+        CREATE OR REPLACE VIEW raw_permits_view AS
         SELECT *
         FROM df
         """
     )
 
     result = check(
-        scan_name="transformation",
-        db_conn=con,
-        data_source="duckdb",
-        checks_subpath=None,
+        scan_name="raw", checks_subpath="sources", duckdb_conn=con, data_source="duckdb"
     )
     con.close()
     return result
@@ -144,12 +169,12 @@ def etl_chicago_cafe_permits():
     # Load file and save it as Table
     load_ducks = aql.load_file(
         task_id="load_csv_to_duckdb",
-        input_file=File(
-            path=url
-        ),  # File(path='gcs://bucket//nyc_jobs.csv', conn_id=GCP_CONN_ID)
+        input_file=File(path=url),
         output_table=Table(
-            name="raw_duckdb", conn_id=DUCKDB_CONN_ID
-        ),  # Table(name="raw_ny_job", conn_id=GCP_CONN_ID)
+            name="raw_permits",
+            conn_id=DUCKDB_CONN_ID,
+            temp=True,
+        ),
         if_exists="replace",
     )
 
@@ -160,7 +185,11 @@ def etl_chicago_cafe_permits():
     # Transform raw table and save it as Table
     transformed = transform_data(
         df=load_ducks,
-        output_table=Table(name="ducks_cafe_permits", conn_id=DUCKDB_CONN_ID),
+        output_table=Table(
+            name="transformed_permits",
+            conn_id=DUCKDB_CONN_ID,
+            temp=True,
+        ),
     )
 
     # Count the total rows in transformed table
@@ -168,13 +197,11 @@ def etl_chicago_cafe_permits():
     task_logger.info(f"COUNT(*) after transformations: {count}")
 
     # Write SQL tables to CSV or parquet files and store them
-    # gcs_bucket = os.getenv("GCS_BUCKET", "gs://dag-authoring")
     export_file = aql.export_to_file(
         task_id="save_file_to_bigquery",
         input_data=transformed,
         output_file=File(
-            path=f"include/data/chicago_sidewalk_cafe_permits_{get_time_period()}.csv"  # f"{gcs_bucket}/{{{{ task_instance_key_str }}}}/cafe_permits.csv",
-            # conn_id=BIGQUERY_CONN_ID,
+            path=f"include/data/chicago_sidewalk_cafe_permits_{get_time_period()}.csv"
         ),
         if_exists="replace",
     )
@@ -183,11 +210,12 @@ def etl_chicago_cafe_permits():
     chain(
         create_duckdb_pool,
         load_ducks,
-        [create_report(df=load_ducks, prefix="raw"), count],
+        soda_check_raw(load_ducks),
+        [create_report(load_ducks, prefix="raw"), count],
         transformed,
-        soda_check_transformation(transformed),
+        soda_check_transform(transformed),
         [create_report(df=transformed, prefix="transformed"), count2],
-        create_comparison_report(raw_df=load_ducks, trans_df=transformed),
+        create_comparison_report(load_ducks, transformed),
         export_file,
         aql.cleanup(),
     )

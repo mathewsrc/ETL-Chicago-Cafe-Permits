@@ -1,5 +1,5 @@
-data_source transformed:
+data_source duckdb:
   type: duckdb
-  database: include/my_local_ducks.db
+  database: /include/my_local_ducks.db
   read_only: false
   schema_name: public
