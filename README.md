@@ -9,19 +9,19 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 ## Sections
 
-* [Architecture overview](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#architecture-overview-warning-the-architecture-can-change-in-the-future)
-* [Architecture of continuous integration with GitHub Actions](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#architecture-of-continuous-integration-with-github-actions)
+* [Architecture overview](#architecture-overview-warning-the-architecture-can-change-in-the-future)
+* [Architecture of continuous integration with GitHub Actions](#architecture-of-continuous-integration-with-github-actions)
 * [Workflow with Airflow]()
-  * [Part 1](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#part-1)
-  * [Part 2](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#part-2)
+  * [Part 1](#part-1)
+  * [Part 2](#part-2)
   * [Part 3](TODO)
-* [Project objectives](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#project-objectives)
-* [Project structure](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#project-structure)
-* [Prerequites](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#prerequisites)
-* [Exploring datasets](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#exploring-datasets)
-* [Running this project](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#running-this-project)
-* [Creating a new connection to DuckDB](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#creating-a-new-connection-to-duckdb)
-* [GitHub Action workflow](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#github-action-workflow-continuous-integration)
+* [Project objectives](#project-objectives)
+* [Project structure](#project-structure)
+* [Prerequites](#prerequisites)
+* [Exploring datasets](#exploring-datasets)
+* [Running this project](#running-this-project)
+* [Creating a new connection to DuckDB](#creating-a-new-connection-to-duckdb)
+* [GitHub Action workflow](#github-action-workflow-continuous-integration)
 
   
 ## Architecture overview (warning: the architecture can change in the future)
