@@ -254,11 +254,7 @@ If everything goes well you will see a result like this one below
 
 ### TODO
 - [ ] Add column description to reports - [column-descriptions](https://docs.profiling.ydata.ai/4.6/features/metadata/#column-descriptions)
-- [ ] Try data modeling with DBT
 - [ ] Try to upload data to BigQuery and create a dashboard with Looker
 - [ ] Record how to create a DuckDB connection in airflow
 - [ ] Record workflow running
-- [ ] Create the architecture image of the project
-- [ ] Change the order of GitHub Actions to lint, format, test
-- [ ] Review README (add ETL section for notebook and airflow)
 - [ ] Completed!
