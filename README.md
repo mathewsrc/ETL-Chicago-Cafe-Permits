@@ -40,7 +40,6 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 4. Finally, I create a transform task to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
 
-<img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/133dfd46-19f3-4f52-aa74-2f2141361a42" width=60%><br/>
 
 ### Part 2
 
@@ -49,27 +48,27 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 1. After the transformation of data I used Soda to check data quality to ensure that data was transformed as expected
    1.1 Check the number of rows
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/c51ba209-2f06-4a05-8a76-e5b74a89b4fd)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/c51ba209-2f06-4a05-8a76-e5b74a89b4fd" width=40%><br/>
 
    1.2 Check validation 
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/2f296667-20bc-4404-b015-3079739b3920)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/2f296667-20bc-4404-b015-3079739b3920" width=60%><br/>
 
    1.3 Check duplicate data
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/1cf19ff3-e19c-441a-ac9d-1ee1b6b1cec6)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/1cf19ff3-e19c-441a-ac9d-1ee1b6b1cec6" width=40%><br/>
 
    1.4 Check missing values
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/fca39a17-a96c-4f5c-863b-d76ddbdeb3a1)
+  <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/fca39a17-a96c-4f5c-863b-d76ddbdeb3a1" width=60%><br/>
 
    1.5 Confirm that the required columns are present
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/dcb5612b-788a-4f7b-82ed-280c129a0846)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/dcb5612b-788a-4f7b-82ed-280c129a0846" width=70%><br/>
 
    1.6 Check columns data type
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/25341326-5f66-4b46-94c9-568204c1c690)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/25341326-5f66-4b46-94c9-568204c1c690" width=40%><br/>
 
 Part 3 - TODO
 
