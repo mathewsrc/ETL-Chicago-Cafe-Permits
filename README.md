@@ -28,19 +28,19 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
    3.1 Check the number of rows
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/7861bcba-09d4-4f3b-b00f-5a86e6288f40)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/7861bcba-09d4-4f3b-b00f-5a86e6288f40" width=40%><br/>
 
    3.2 Confirm that the required columns are present 
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/d9a907be-c061-4341-85cd-1b202221bf73)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/d9a907be-c061-4341-85cd-1b202221bf73" width=70%><br/>
 
    3.3 Check columns data type
 
-   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/70904470-35c5-487a-be84-9fa431524d00)
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/70904470-35c5-487a-be84-9fa431524d00" width=40%><br/>
 
 4. Finally, I create a transform task to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
 
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/133dfd46-19f3-4f52-aa74-2f2141361a42)
+<img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/133dfd46-19f3-4f52-aa74-2f2141361a42" width=60%><br/>
 
 
 
@@ -74,52 +74,74 @@ By automating these ETL tasks, I establish a robust data pipeline that transform
 ------------
 
 ```
-Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 ├── .devcontainer                        # VS Code development container 
 |   └── devcontainer.json                
 ├── .github                              # GitHub Actions for continuous integration (CI) 
 |   └── workflows
 |       └── main.yml                     # GitHub Actions configurations 
-├── dags
-|   └── utils
-|        ├── drop_duplicates.py          # Method to remove duplicates
-|        ├── drop_full_null_columns.py   # Method to drop columns if all values are null
-|        ├── drop_full_null_rows.py      # Method to drop rows if all values in a row are null
-|        ├── drop_missing.py             # Method to drop rows with missing values in specific columns
-|        ├── format_url.py               # Method to format the URL
-|        ├── get_time_period.py          # Method to get current time period
-|        ├── format_url.py               # Method to format the URL
-|        ├── get_time_period.py          # Method to get current time period
-|        ├── modify_file_name.py         # Method to create a formatted file name
-|        └── rename_columns.py           # Method to rename DataFrame columns name
-├── include
-|   ├── data                             # Directory to save CSV files
-|   ├── reports                          # Directory with reports
-|   └── soda                             # Directory with SODA files
-|        ├── checks                      # Directory containing data quality rules yml files
-|        |    └── transformation.yml     # Data quality rules for transformation step
-|        ├── check_function.py           # Helpful function for running SODA data quality checks 
-|        └── configuration.yml           # Configurations to connect Soda to a data source (DuckDB)
-├── README.md                               
-├── notebooks                            # COLAB notebooks
-├── plugins
-├── tests                                # Diretory for Python test files
-├── .dockerignore
-├── .gitignore
-├── airflow_setttings.yaml
-├── format.sh                            # Bash script to format code with ruff  
-├── LICENSE   
-├── lint.sh                              # Bash script to lint code with ruff
+├── Dockerfile
+├── LICENSE
 ├── Makefile                             # Makefile with some helpful commands  
+├── README.md
+├── airflow_settings.yaml
+├── dags
+│   ├── __init__.py
+│   ├── etl_chicago_cafe_permits_dag.py
+│   ├── example_etl.py
+│   └── utils
+│       ├── __init__.py
+│       ├── drop_duplicates.py           # Function to remove duplicates
+│       ├── drop_full_null_columns.py    # Function to drop columns if all values are null
+│       ├── drop_full_null_rows.py       # Function to drop rows if all values in a row are null
+│       ├── drop_missing.py              # Function to drop rows with missing values
+│       ├── format_url.py                # Function to format the URL
+│       ├── get_time_period.py           # Function to get the current period
+│       ├── modify_file_name.py          # Function to create a formatted file name
+│       └── rename_columns.py            # Function to rename DataFrame columns name
+├── format.sh                            # Bash script to format code with ruff  
+├── include
+│   ├── data
+│   │   ├── chicago_sidewalk_cafe_permits_2023_11.csv
+│   │   └── jobs_nyc_postings_2023_10.csv
+│   ├── my_local_ducks.db
+│   ├── my_local_ducks.db.wal
+│   ├── reports                          # Directory with reports
+│   │   ├── chicago_comparison_2023_11.html
+│   │   ├── chicago_raw_profiling_report_2023_11.html
+│   │   └── chicago_transformed_profiling_report_2023_11.html
+│   └── soda                             # Directory with SODA files
+│       ├── check_function.py            # Helpful function for running SODA data quality checks 
+│       ├── checks                       # Directory containing data quality rules YML files
+│       │   ├── sources
+│       │   │   └── raw.yml              # Soda data quality check for raw data 
+│       │   └── transform
+│       │       └── transformed.yml      # Soda data quality check for transformed data 
+│       └── configuration.yml            # Configurations to connect Soda to a data source (DuckDB)
+├── lint.sh                              # Bash script to format code with ruff  
+├── notebooks                            # COLAB notebooks
+│   └── gov_etl.ipynb
 ├── packages.txt
-├── README.md 
-├── requirements.txt                     # Required Python libraries 
+├── plugins
+├── requirements.txt
 ├── setup_data_folders.sh                # Bash script to create some directories
 ├── source_env_linux.sh                  # Bash script to create a Python virtual environment in linux
 ├── source_env_windows.sh                # Bash script to create a Python virtual environment in windows
-└── test.sh                              # Bash script to test code with pytest 
+├── test.sh                              # Bash script to test code with pytest 
+└── tests                                # Diretory for Python test files
+    ├── __init__.py
+    ├── dags
+    │   └── test_dag_example.py
+    └── utils
+        ├── __init__.py
+        ├── test_drop_duplicates.py
+        ├── test_drop_full_null_columns.py
+        ├── test_drop_full_null_rows.py
+        ├── test_drop_missing.py
+        ├── test_format_url.py
+        ├── test_modify_file_name.py
+        ├── test_rename_columns.py
+        └── test_rename_columns_name.py
 ```
-
 
 --------
 
