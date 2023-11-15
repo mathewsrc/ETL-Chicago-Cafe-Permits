@@ -7,12 +7,29 @@
 
 This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits] (https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
 
-## Architecture Overview (warning: the architecture can change in the future)
+## Sections
+
+* [Architecture overview](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#architecture-overview-warning-the-architecture-can-change-in-the-future)
+* [Architecture of continuous integration with GitHub Actions](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#architecture-of-continuous-integration-with-github-actions)
+* [Workflow with Airflow]()
+  * [Part 1](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#part-1)
+  * [Part 2](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#part-2)
+  * [Part 3](TODO)
+* [Project objectives](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#project-objectives)
+* [Project structure](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#project-structure)
+* [Prerequites](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#prerequisites)
+* [Exploring datasets](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#exploring-datasets)
+* [Running this project](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#running-this-project)
+* [Creating a new connection to DuckDB](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#creating-a-new-connection-to-duckdb)
+* [GitHub Action workflow](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/edit/master/README.md#github-action-workflow-continuous-integration)
+
+  
+## Architecture overview (warning: the architecture can change in the future)
 
 ![etl_airflow_soda_bigquery_looker](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/b4635702-c5cc-45b6-91cf-a3b69ef09419)
 
 
-## Architecture of Continuous Integration with GitHub Actions
+## Architecture of continuous cntegration with GitHub Actions
 
 
 ![etl_ci drawio](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/04b81049-e0f8-4336-a059-bea6640402ce)
@@ -76,7 +93,7 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 Part 3 - TODO
 
-## Project Objectives:
+## Project objectives:
 
 **Extraction**: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov and the Chicago Sidewalk Cafe Permits dataset.
 
@@ -102,7 +119,7 @@ Part 3 - TODO
 
 By automating these ETL tasks, I establish a robust data pipeline that transforms raw data into valuable assets, supporting informed decision-making and data-driven insights.
 
-## Project Organization
+## Project structure
 ------------
 
 ```
@@ -247,7 +264,7 @@ If everything goes well you will see a result like this one below
 ## TODO !insert image here
 
 
-## GitHub Action workflow (Continuos Integration)
+## GitHub Action workflow (Continuous Integration)
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/4a13a7bd-080f-49a1-aaaa-db353180385f)
 
