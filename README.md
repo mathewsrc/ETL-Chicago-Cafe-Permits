@@ -29,13 +29,13 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 ![etl_airflow_soda_bigquery_looker](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/b4635702-c5cc-45b6-91cf-a3b69ef09419)
 
 
-## Architecture of continuous cntegration with GitHub Actions
+## Architecture of continuous integration with GitHub Actions
 
 
 ![etl_ci drawio](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/04b81049-e0f8-4336-a059-bea6640402ce)
 
 
-### Workflow with Airflow (warning: the workflow can change in the future)
+## Workflow with Airflow (warning: the workflow can change in the future)
 
 ### Part 1
 
