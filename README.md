@@ -20,12 +20,12 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 ### Workflow with Airflow (warning: the workflow can change in the future)
 
+### Part 1
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/ab7f4353-f30b-4f8a-aaf2-4b47c040ae23)
 1. I created a concurrency of 1 using the BashOperator to avoid two or more executions against DuckDB as allowing  two or more calls to DuckDB would cause an error
 2. I loaded the CSV file using an HTTP call by leveraging the Astro Python SDK `load_file()` function and the DuckDB connection that I created in Airflow `Admin/Connections`
 3. Then, I created two tasks: one to count the number of rows in the table and another to check raw data quality using [Soda](https://docs.soda.io/)
-
    3.1 Check the number of rows
 
    <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/7861bcba-09d4-4f3b-b00f-5a86e6288f40" width=40%><br/>
@@ -42,7 +42,36 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/133dfd46-19f3-4f52-aa74-2f2141361a42" width=60%><br/>
 
+### Part 2
 
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/8b325417-bdc9-4adb-8a22-cf2a04d7171e)
+
+1. After the transformation of data I used Soda to check data quality to ensure that data was transformed as expected
+   1.1 Check the number of rows
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/c51ba209-2f06-4a05-8a76-e5b74a89b4fd)
+
+   1.2 Check validation 
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/2f296667-20bc-4404-b015-3079739b3920)
+
+   1.3 Check duplicate data
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/1cf19ff3-e19c-441a-ac9d-1ee1b6b1cec6)
+
+   1.4 Check missing values
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/fca39a17-a96c-4f5c-863b-d76ddbdeb3a1)
+
+   1.5 Confirm that the required columns are present
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/dcb5612b-788a-4f7b-82ed-280c129a0846)
+
+   1.6 Check columns data type
+
+   ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/25341326-5f66-4b46-94c9-568204c1c690)
+
+Part 3 - TODO
 
 ## Project Objectives:
 
