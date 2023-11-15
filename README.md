@@ -43,6 +43,7 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 1. I created a concurrency of 1 using the BashOperator to avoid two or more executions against DuckDB as allowing  two or more calls to DuckDB would cause an error
 2. I loaded the CSV file using an HTTP call by leveraging the Astro Python SDK `load_file()` function and the DuckDB connection that I created in Airflow `Admin/Connections`
 3. Then, I create a task to check raw data quality using [Soda](https://docs.soda.io/)
+
    3.1 Check the number of rows
 
    <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/7861bcba-09d4-4f3b-b00f-5a86e6288f40" width=40%><br/>
@@ -55,8 +56,8 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
    <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/70904470-35c5-487a-be84-9fa431524d00" width=40%><br/>
 
-4. Next, I created tasks to count the number of rows and to create a data profiling 
-5. Finally, I create a transform task to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
+5. Next, I created tasks to count the number of rows and to create a data profiling 
+6. Finally, I create a transform task to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
 
 
 ### Part 2
@@ -64,7 +65,8 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/8b325417-bdc9-4adb-8a22-cf2a04d7171e)
 
 1. After the transformation of data I used Soda to check data quality to ensure that data was transformed as expected
-   1.1 Check the number of rows
+
+    1.1 Check the number of rows
 
    <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/c51ba209-2f06-4a05-8a76-e5b74a89b4fd" width=40%><br/>
 
