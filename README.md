@@ -5,24 +5,97 @@
 
 ## Project Summary:
 
-This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits] (https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
+This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits](https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
 
-## Architecture Overview (warning: the architecture can change in the future)
+## Sections
+
+* [Architecture overview](#architecture-overview-warning-the-architecture-can-change-in-the-future)
+* [Architecture of continuous integration with GitHub Actions](#architecture-of-continuous-integration-with-github-actions)
+* [Workflow with Airflow](#workflow-with-airflow-warning-the-workflow-can-change-in-the-future)
+  * [Part 1](#part-1)
+  * [Part 2](#part-2)
+  * [Part 3](TODO)
+* [Project objectives](#project-objectives)
+* [Project structure](#project-structure)
+* [Prerequites](#prerequisites)
+* [Exploring datasets](#exploring-datasets)
+* [Running this project](#running-this-project)
+* [Creating a new connection to DuckDB](#creating-a-new-connection-to-duckdb)
+* [GitHub Action workflow](#github-action-workflow-continuous-integration)
+
+  
+## Architecture overview (warning: the architecture can change in the future)
 
 ![etl_airflow_soda_bigquery_looker](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/b4635702-c5cc-45b6-91cf-a3b69ef09419)
 
 
-## Architecture of Continuous Integration with GitHub Actions
+## Architecture of continuous integration with GitHub Actions
 
 
 ![etl_ci drawio](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/04b81049-e0f8-4336-a059-bea6640402ce)
 
 
-### Workflow with Airflow (warning: the workflow can change in the future)
+## Workflow with Airflow (warning: the workflow can change in the future)
 
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/339a2287-28bd-469a-8fcf-8faa1df8bc06)
+### Part 1
 
-## Project Objectives:
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/ab7f4353-f30b-4f8a-aaf2-4b47c040ae23)
+1. I created a concurrency of 1 using the BashOperator to avoid two or more executions against DuckDB as allowing  two or more calls to DuckDB would cause an error
+2. I loaded the CSV file using an HTTP call by leveraging the Astro Python SDK `load_file()` function and the DuckDB connection that I created in Airflow `Admin/Connections`
+3. Then, I create a task to check raw data quality using [Soda](https://docs.soda.io/)
+
+   3.1 Check the number of rows
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/7861bcba-09d4-4f3b-b00f-5a86e6288f40" width=40%><br/>
+
+   3.2 Confirm that the required columns are present 
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/d9a907be-c061-4341-85cd-1b202221bf73" width=70%><br/>
+
+   3.3 Check columns data type
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/70904470-35c5-487a-be84-9fa431524d00" width=40%><br/>
+
+5. Next, I created tasks to count the number of rows and to create a data profiling 
+6. Finally, I create a transform task to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
+
+
+### Part 2
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/8b325417-bdc9-4adb-8a22-cf2a04d7171e)
+
+1. After the transformation of data I used Soda to check data quality to ensure that data was transformed as expected
+
+    1.1 Check the number of rows
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/c51ba209-2f06-4a05-8a76-e5b74a89b4fd" width=40%><br/>
+
+   1.2 Check validation 
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/2f296667-20bc-4404-b015-3079739b3920" width=60%><br/>
+
+   1.3 Check duplicate data
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/1cf19ff3-e19c-441a-ac9d-1ee1b6b1cec6" width=40%><br/>
+
+   1.4 Check missing values
+
+  <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/fca39a17-a96c-4f5c-863b-d76ddbdeb3a1" width=60%><br/>
+
+   1.5 Confirm that the required columns are present
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/dcb5612b-788a-4f7b-82ed-280c129a0846" width=70%><br/>
+
+   1.6 Check columns data type
+
+   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/25341326-5f66-4b46-94c9-568204c1c690" width=40%><br/>
+
+2. Next, I created tasks to count the number of rows and to create a data profiling 
+3. Finally, I created a task to create a data profiling comparing the raw data with the transformed data
+
+Part 3 - TODO
+
+## Project objectives:
 
 **Extraction**: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov and the Chicago Sidewalk Cafe Permits dataset.
 
@@ -48,56 +121,78 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 
 By automating these ETL tasks, I establish a robust data pipeline that transforms raw data into valuable assets, supporting informed decision-making and data-driven insights.
 
-## Project Organization
+## Project structure
 ------------
 
 ```
-Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/
 ├── .devcontainer                        # VS Code development container 
 |   └── devcontainer.json                
 ├── .github                              # GitHub Actions for continuous integration (CI) 
 |   └── workflows
 |       └── main.yml                     # GitHub Actions configurations 
-├── dags
-|   └── utils
-|        ├── drop_duplicates.py          # Method to remove duplicates
-|        ├── drop_full_null_columns.py   # Method to drop columns if all values are null
-|        ├── drop_full_null_rows.py      # Method to drop rows if all values in a row are null
-|        ├── drop_missing.py             # Method to drop rows with missing values in specific columns
-|        ├── format_url.py               # Method to format the URL
-|        ├── get_time_period.py          # Method to get current time period
-|        ├── format_url.py               # Method to format the URL
-|        ├── get_time_period.py          # Method to get current time period
-|        ├── modify_file_name.py         # Method to create a formatted file name
-|        └── rename_columns.py           # Method to rename DataFrame columns name
-├── include
-|   ├── data                             # Directory to save CSV files
-|   ├── reports                          # Directory with reports
-|   └── soda                             # Directory with SODA files
-|        ├── checks                      # Directory containing data quality rules yml files
-|        |    └── transformation.yml     # Data quality rules for transformation step
-|        ├── check_function.py           # Helpful function for running SODA data quality checks 
-|        └── configuration.yml           # Configurations to connect Soda to a data source (DuckDB)
-├── README.md                               
-├── notebooks                            # COLAB notebooks
-├── plugins
-├── tests                                # Diretory for Python test files
-├── .dockerignore
-├── .gitignore
-├── airflow_setttings.yaml
-├── format.sh                            # Bash script to format code with ruff  
-├── LICENSE   
-├── lint.sh                              # Bash script to lint code with ruff
+├── Dockerfile
+├── LICENSE
 ├── Makefile                             # Makefile with some helpful commands  
+├── README.md
+├── airflow_settings.yaml
+├── dags
+│   ├── __init__.py
+│   ├── etl_chicago_cafe_permits_dag.py
+│   ├── example_etl.py
+│   └── utils
+│       ├── __init__.py
+│       ├── drop_duplicates.py           # Function to remove duplicates
+│       ├── drop_full_null_columns.py    # Function to drop columns if all values are null
+│       ├── drop_full_null_rows.py       # Function to drop rows if all values in a row are null
+│       ├── drop_missing.py              # Function to drop rows with missing values
+│       ├── format_url.py                # Function to format the URL
+│       ├── get_time_period.py           # Function to get the current period
+│       ├── modify_file_name.py          # Function to create a formatted file name
+│       └── rename_columns.py            # Function to rename DataFrame columns name
+├── format.sh                            # Bash script to format code with ruff  
+├── include
+│   ├── data
+│   │   ├── chicago_sidewalk_cafe_permits_2023_11.csv
+│   │   └── jobs_nyc_postings_2023_10.csv
+│   ├── my_local_ducks.db
+│   ├── my_local_ducks.db.wal
+│   ├── reports                          # Directory with reports
+│   │   ├── chicago_comparison_2023_11.html
+│   │   ├── chicago_raw_profiling_report_2023_11.html
+│   │   └── chicago_transformed_profiling_report_2023_11.html
+│   └── soda                             # Directory with SODA files
+│       ├── check_function.py            # Helpful function for running SODA data quality checks 
+│       ├── checks                       # Directory containing data quality rules YML files
+│       │   ├── sources
+│       │   │   └── raw.yml              # Soda data quality check for raw data 
+│       │   └── transform
+│       │       └── transformed.yml      # Soda data quality check for transformed data 
+│       └── configuration.yml            # Configurations to connect Soda to a data source (DuckDB)
+├── lint.sh                              # Bash script to format code with ruff  
+├── notebooks                            # COLAB notebooks
+│   └── gov_etl.ipynb
 ├── packages.txt
-├── README.md 
-├── requirements.txt                     # Required Python libraries 
+├── plugins
+├── requirements.txt
 ├── setup_data_folders.sh                # Bash script to create some directories
 ├── source_env_linux.sh                  # Bash script to create a Python virtual environment in linux
 ├── source_env_windows.sh                # Bash script to create a Python virtual environment in windows
-└── test.sh                              # Bash script to test code with pytest 
+├── test.sh                              # Bash script to test code with pytest 
+└── tests                                # Diretory for Python test files
+    ├── __init__.py
+    ├── dags
+    │   └── test_dag_example.py
+    └── utils
+        ├── __init__.py
+        ├── test_drop_duplicates.py
+        ├── test_drop_full_null_columns.py
+        ├── test_drop_full_null_rows.py
+        ├── test_drop_missing.py
+        ├── test_format_url.py
+        ├── test_modify_file_name.py
+        ├── test_rename_columns.py
+        └── test_rename_columns_name.py
 ```
-
 
 --------
 
@@ -171,18 +266,14 @@ If everything goes well you will see a result like this one below
 ## TODO !insert image here
 
 
-## GitHub Action workflow (Continuos Integration)
+## GitHub Action workflow (Continuous Integration)
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/4a13a7bd-080f-49a1-aaaa-db353180385f)
 
 
 ### TODO
 - [ ] Add column description to reports - [column-descriptions](https://docs.profiling.ydata.ai/4.6/features/metadata/#column-descriptions)
-- [ ] Try data modeling with DBT
 - [ ] Try to upload data to BigQuery and create a dashboard with Looker
 - [ ] Record how to create a DuckDB connection in airflow
 - [ ] Record workflow running
-- [ ] Create the architecture image of the project
-- [ ] Change the order of GitHub Actions to lint, format, test
-- [ ] Review README (add ETL section for notebook and airflow)
 - [ ] Completed!
