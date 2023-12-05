@@ -39,7 +39,7 @@ def transform_data(df: pd.DataFrame):
     """Apply some transformations to DataFrame"""
     df_pl = pl.from_pandas(df).lazy()
     df_pl = (
-        df_pl.pipe(rename_columns_name)  # Convert all text columns to lowercase
+        df_pl.pipe(rename_columns_name)  # Convert all columns to lowercase
         .pipe(drop_duplicates)  # Drop duplicate rows
         .pipe(drop_full_null_rows)  # Drop a row only if all values are null
         .pipe(drop_missing)
