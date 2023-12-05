@@ -173,7 +173,7 @@ def etl_chicago_cafe_permits():
         output_table=Table(
             name="raw_permits",
             conn_id=DUCKDB_CONN_ID,
-            temp=True,
+            temp=False,
         ),
         if_exists="replace",
     )
@@ -188,7 +188,7 @@ def etl_chicago_cafe_permits():
         output_table=Table(
             name="transformed_permits",
             conn_id=DUCKDB_CONN_ID,
-            temp=True,
+            temp=False,
         ),
     )
 
