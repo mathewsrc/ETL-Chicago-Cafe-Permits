@@ -23,7 +23,6 @@ checks for transformed_permits_view:
   - duplicate_count(permit_number):
       name: Ensure that all rows are unique
       fail: when > 0 
-   # Check warns when any NULL values exist in the column
   - missing_count(legal_name): 
       name: Ensure that all cafe have a legal name
       fail: when > 0
