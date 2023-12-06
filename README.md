@@ -49,7 +49,7 @@ You can check the dataset table at: https://data.cityofchicago.org/widgets/qnjv-
 ```sql
 CREATE OR REPLACE VIEW chicago-cafe-permits.cafe_permits.vw_report
 OPTIONS(
-  description='Number of permits by legal name and doing business name',
+  description='Report view for Looker Studio dashboard',
   labels=[('legal_name', 'total_permits')],
   expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 60 DAY)
 ) AS
