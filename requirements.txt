@@ -25,9 +25,6 @@ loguru==0.7.2
 # data wrangling (etl)
 polars==0.19.12
 
-# export from dataframe to BigQuery
-#pandas-gbq
-
 # URL manipulation
 furl==2.1.3
 
