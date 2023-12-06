@@ -52,4 +52,9 @@
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/62ccd496-4385-4c8c-9212-93f4806e4a27)
 
-14) Copy the downloaded JSON file to ```include/gcp``` directory in Airflow project and rename it to ```service_account.json``` 
+14) Copy the downloaded JSON file to ```include/gcp``` directory in Airflow project and rename it to ```service_account.json```
+
+15) Then, go to airflow webserver at ```http://localhost:8080/```, admin tab, connections option, and add a google cloud connection
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/14fbba79-2018-49ed-a201-1f78a0be30a8)
+
