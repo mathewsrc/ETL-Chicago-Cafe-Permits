@@ -1,3 +1,5 @@
+from calendar import c
+from logging import config
 from utils.modify_file_name import modify_file_name
 from utils.format_url import format_url
 from utils.get_time_period import get_time_period
@@ -13,13 +15,17 @@ from airflow.utils.helpers import chain
 from airflow.operators.bash import BashOperator
 from astro import sql as aql
 from astro.files import File
-from astro.sql.table import Table
+from astro.sql.table import Table, Metadata
+from astro.databases.google.bigquery import BigqueryDatabase
 from pendulum import datetime, duration
 import logging
 import os
 from include.soda.check_function import check
 from ydata_profiling import ProfileReport, compare
 from duckdb_provider.hooks.duckdb_hook import DuckDBHook
+from airflow.providers.google.cloud.operators.bigquery import (
+    BigQueryCreateEmptyDatasetOperator
+)
 
 
 # Reference: https://catalog.data.gov/dataset/sidewalk-cafe-permits
@@ -31,7 +37,9 @@ SODA_PATH = "include/soda"
 DUCKDB_CONN_ID = "duckdb_conn"
 DUCKDB_POOL_NAME = "duckdb_pool"
 LOCAL_DUCKDB_STORAGE_PATH = "include/my_local_ducks.db"
-BIGQUERY_CONN_ID = "bigquery_conn"
+BIGQUERY_CONN_ID = "gcp"
+gcp_project_name = os.getenv("GCP_PROJECT_NAME", "chicago-cafe-permits") 
+bigquery_dataset_name = os.getenv("BIGQUERY_DATASET", "cafe_permits")
 
 
 @aql.dataframe(pool=DUCKDB_POOL_NAME, columns_names_capitalization="original")
@@ -75,20 +83,13 @@ def create_comparison_report(raw_df: pd.DataFrame, trans_df: pd.DataFrame):
         os.path.join("include/reports/", f"chicago_comparison_{get_time_period()}.html")
     )
 
-
-@aql.transform(pool=DUCKDB_POOL_NAME)
-def count_items(in_table):
-    """Count the total of rows in table"""
-    return "SELECT count(*) FROM {{ in_table }}"
-
-
 @aql.dataframe(pool=DUCKDB_POOL_NAME)
 def soda_check_transform(df: pd.DataFrame):
     """Apply data quality check with SODA"""
     my_duck_hook = DuckDBHook.get_hook(DUCKDB_CONN_ID)
     con = my_duck_hook.get_conn()
     con.sql(
-        """\
+        """
         CREATE OR REPLACE VIEW transformed_permits_view AS
         SELECT *
         FROM df
@@ -110,7 +111,7 @@ def soda_check_raw(df: pd.DataFrame):
     my_duck_hook = DuckDBHook.get_hook(DUCKDB_CONN_ID)
     con = my_duck_hook.get_conn()
     con.sql(
-        """\
+        """
         CREATE OR REPLACE VIEW raw_permits_view AS
         SELECT *
         FROM df
@@ -123,6 +124,20 @@ def soda_check_raw(df: pd.DataFrame):
     con.close()
     return result
 
+@aql.dataframe(pool=DUCKDB_POOL_NAME)
+def load_to_bigquery(df: pd.DataFrame):
+    """Load DataFrame to BigQuery"""
+    BigqueryDatabase(
+        conn_id=BIGQUERY_CONN_ID, 
+        table=f"{gcp_project_name}.{bigquery_dataset_name}"
+        ).load_pandas_dataframe_to_table(
+            source_dataframe=df,
+            target_table=Table(
+                name="cafe_permits", 
+                conn_id=BIGQUERY_CONN_ID,
+                metadata=Metadata(schema='cafe_permits')),
+            if_exists='replace',)
+    return None
 
 # Define some default arguments for DAG
 default_args = {
@@ -131,7 +146,6 @@ default_args = {
     "retries": 1,
     "retry_delay": duration(seconds=10),
 }
-
 
 @dag(
     start_date=datetime(2023, 10, 1),
@@ -178,10 +192,6 @@ def etl_chicago_cafe_permits():
         if_exists="replace",
     )
 
-    # Count the total rows in raw table
-    count = count_items(load_ducks)
-    task_logger.info(f"COUNT(*) before transformations: {count}")
-
     # Transform raw table and save it as Table
     transformed = transform_data(
         df=load_ducks,
@@ -191,32 +201,28 @@ def etl_chicago_cafe_permits():
             temp=False,
         ),
     )
+    
+    # Create an empty dataset in BigQuery
+    create_cafe_permits_dataset = BigQueryCreateEmptyDatasetOperator(
+        task_id='create_cafe_permits_dataset',
+        dataset_id=bigquery_dataset_name,
+        gcp_conn_id=BIGQUERY_CONN_ID)
 
-    # Count the total rows in transformed table
-    count2 = count_items(transformed)
-    task_logger.info(f"COUNT(*) after transformations: {count}")
-
-    # Write SQL tables to CSV or parquet files and store them
-    export_file = aql.export_to_file(
-        task_id="save_file_to_bigquery",
-        input_data=transformed,
-        output_file=File(
-            path=f"include/data/chicago_sidewalk_cafe_permits_{get_time_period()}.csv"
-        ),
-        if_exists="replace",
-    )
-
+    # Export transformed data to BigQuery
+    export_to_bigquery = load_to_bigquery(transformed)
+    
     # Chain tasks
     chain(
         create_duckdb_pool,
         load_ducks,
         soda_check_raw(load_ducks),
-        [create_report(load_ducks, prefix="raw"), count],
+        create_report(load_ducks, prefix="raw"),
         transformed,
         soda_check_transform(transformed),
-        [create_report(df=transformed, prefix="transformed"), count2],
+        create_report(df=transformed, prefix="transformed"),
         create_comparison_report(load_ducks, transformed),
-        export_file,
+        create_cafe_permits_dataset,
+        export_to_bigquery,
         aql.cleanup(),
     )
 
