@@ -29,7 +29,7 @@ You can check the dataset table at: https://data.cityofchicago.org/widgets/qnjv-
   
 ## Architecture overview 
 
-![etl_airflow_soda_bigquery_looker](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/b4635702-c5cc-45b6-91cf-a3b69ef09419)
+![etl_airflow_soda_bigquery_looker](https://github.com/mathewsrc/ETL-Chicago-Cafe-Permits/assets/94936606/f2c386dd-0125-4dcb-a96e-b89df6669786)
 
 
 ## Architecture of continuous integration with GitHub Actions
