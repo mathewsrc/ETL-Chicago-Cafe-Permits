@@ -109,7 +109,7 @@ SELECT * FROM `chicago-cafe-permits.cafe_permits.vw_report`;
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/e5f95838-d437-4aac-9ae9-86c8eecf1a22)
 
 1. I used the ```BigQueryCreateEmptyDatasetOperator``` operator to create a new empty dataset in BigQuery
-2. Then, I used Astro Python SDK ```BigqueryDatabase..load_pandas_dataframe_to_table``` function to load data into BigQuery
+2. Then, I used Astro Python SDK ```BigqueryDatabase.load_pandas_dataframe_to_table``` function to load data into BigQuery
 3. Finally, I used the Astro Python SDK ```astro.sql.cleanup()``` function to clean up all tables  
 
 ## Project structure
