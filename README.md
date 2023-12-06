@@ -1,10 +1,13 @@
 
 # Streamlined ETL Process: Unleashing  Airflow, BigQuery, Looker, Polars, Soda, DuckDB and YData Profiling
 
+Contact:
+
+https://www.linkedin.com/in/matheusrc/
 
 ## Project Summary:
 
-This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, DuckDB, Requests, BeautifulSoup, Loguru, and the Google Cloud Services BigQuery and Looker Studio to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits](https://catalog.data.gov/dataset/sidewalk-cafe-permits). 
+This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, DuckDB, Requests, BeautifulSoup, Loguru, and the Google Cloud Services BigQuery and Looker Studio to streamline the extraction, transformation, and loading of CSV dataset from the [Chicago Sidewalk Cafe Permits](https://catalog.data.gov/dataset/sidewalk-cafe-permits). 
 
 You can check the dataset table at: https://data.cityofchicago.org/widgets/qnjv-hj2q?mobile_redirect=true
 
