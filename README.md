@@ -37,6 +37,15 @@ You can check the dataset table at: https://data.cityofchicago.org/widgets/qnjv-
 ![etl_ci drawio](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/04b81049-e0f8-4336-a059-bea6640402ce)
 
 
+## BigQuery table
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/33d8424e-e860-4796-b996-cd1ffb9df20a)
+
+
+## Looker Report
+
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/37dd0503-1244-48ea-b711-1c263a4f2a62)
+
 ## Workflow with Airflow (warning: the workflow can change in the future)
 
 ### Part 1
@@ -251,6 +260,10 @@ Output
 
 
 ## Creating a new connection to DuckDB
+
+## TODO
+
+## Creating a new connection to Google Cloud
 
 ## TODO
 
