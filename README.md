@@ -1,32 +1,30 @@
-[![GitHub Actions - CI](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml/badge.svg)](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/actions/workflows/main.yml)
 
-# Streamlined ETL Process: Unleashing  Airflow, BigQuery, Polars, SODA, DuckDB and YData Profiling
+# Streamlined ETL Process: Unleashing  Airflow, BigQuery, Looker, Polars, Soda, DuckDB and YData Profiling
 
 
 ## Project Summary:
 
-This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, DuckDB, Requests, BeautifulSoup, and Loguru, to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits](https://catalog.data.gov/dataset/sidewalk-cafe-permits). The notebook in the notebooks directory is used to extract, transform, and load datasets from the U.S. government's data repository and the Airflow workflow to extract, transform, and load the Chicago Sidewalk Cafe Permits dataset.
+This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, DuckDB, Requests, BeautifulSoup, Loguru, and the Google Cloud Services BigQuery and Looker Studio to streamline the extraction, transformation, and loading of CSV datasets from the [U.S. government's data repository](https://catalog.data.gov) and the [Chicago Sidewalk Cafe Permits](https://catalog.data.gov/dataset/sidewalk-cafe-permits). 
 
 You can check the dataset table at: https://data.cityofchicago.org/widgets/qnjv-hj2q?mobile_redirect=true
 
 ## Sections
 
-* [Architecture overview](#architecture-overview-warning-the-architecture-can-change-in-the-future)
+* [Architecture overview](#architecture-overview)
 * [Architecture of continuous integration with GitHub Actions](#architecture-of-continuous-integration-with-github-actions)
-* [Workflow with Airflow](#workflow-with-airflow-warning-the-workflow-can-change-in-the-future)
+* [BigQuery table](#bigquery-table)
+* [Looker dashboard](#looker-dashboard)
+* [Workflow with Airflow](#workflow-with-airflow)
   * [Part 1](#part-1)
   * [Part 2](#part-2)
   * [Part 3](TODO)
-* [Project objectives](#project-objectives)
 * [Project structure](#project-structure)
 * [Prerequites](#prerequisites)
-* [Exploring datasets](#exploring-datasets)
 * [Running this project](#running-this-project)
 * [Creating a new connection to DuckDB](#creating-a-new-connection-to-duckdb)
-* [GitHub Action workflow](#github-action-workflow-continuous-integration)
-
+* [Creating a new connection to Google Cloud](#creating-a-new-connection-to-google-cloud)
   
-## Architecture overview (warning: the architecture can change in the future)
+## Architecture overview 
 
 ![etl_airflow_soda_bigquery_looker](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/b4635702-c5cc-45b6-91cf-a3b69ef09419)
 
@@ -42,95 +40,38 @@ You can check the dataset table at: https://data.cityofchicago.org/widgets/qnjv-
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/33d8424e-e860-4796-b996-cd1ffb9df20a)
 
 
-## Looker Report
+## Looker dashboard
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/37dd0503-1244-48ea-b711-1c263a4f2a62)
 
-## Workflow with Airflow (warning: the workflow can change in the future)
+## Workflow with Airflow 
 
 ### Part 1
 
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/ab7f4353-f30b-4f8a-aaf2-4b47c040ae23)
-1. I created a concurrency of 1 using the BashOperator to avoid two or more executions against DuckDB as allowing  two or more calls to DuckDB would cause an error
-2. I loaded the CSV file using an HTTP call by leveraging the Astro Python SDK `load_file()` function and the DuckDB connection that I created in Airflow `Admin/Connections`
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/6dd0e4b4-bbab-43ac-9db6-48ec2e6bbf20)
+
+1. I created a concurrency of 1 using the ```BashOperator``` to avoid two or more executions against DuckDB as allowing two or more calls to DuckDB would cause an error
+2. I loaded the CSV file using an HTTP call by leveraging the Astro Python SDK `astro.sql.load_file` function and the DuckDB connection that I created in Airflow `Admin/Connections`
 3. Then, I create a task to check raw data quality using [Soda](https://docs.soda.io/)
-
-   3.1 Check the number of rows
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/7861bcba-09d4-4f3b-b00f-5a86e6288f40" width=40%><br/>
-
-   3.2 Confirm that the required columns are present 
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/d9a907be-c061-4341-85cd-1b202221bf73" width=70%><br/>
-
-   3.3 Check columns data type
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/70904470-35c5-487a-be84-9fa431524d00" width=40%><br/>
-
-5. Next, I created tasks to count the number of rows and to create a data profiling 
-6. Finally, I create a transform task to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
+5. Next, I created a task to generate a data profiling 
+6. Finally, I create a transform task using the Astro Python SDK ```astro.sql.dataframe``` operator to apply the following transformations: lower column name, remove duplicated rows, remove missing values, and drop a row if all values are null
 
 
 ### Part 2
 
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/8b325417-bdc9-4adb-8a22-cf2a04d7171e)
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/91fc7347-2e70-495e-84c6-f0a9079994fe)
 
 1. After the transformation of data I used Soda to check data quality to ensure that data was transformed as expected
-
-    1.1 Check the number of rows
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/c51ba209-2f06-4a05-8a76-e5b74a89b4fd" width=40%><br/>
-
-   1.2 Check validation 
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/2f296667-20bc-4404-b015-3079739b3920" width=60%><br/>
-
-   1.3 Check duplicate data
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/1cf19ff3-e19c-441a-ac9d-1ee1b6b1cec6" width=40%><br/>
-
-   1.4 Check missing values
-
-  <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/fca39a17-a96c-4f5c-863b-d76ddbdeb3a1" width=60%><br/>
-
-   1.5 Confirm that the required columns are present
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/dcb5612b-788a-4f7b-82ed-280c129a0846" width=70%><br/>
-
-   1.6 Check columns data type
-
-   <img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/25341326-5f66-4b46-94c9-568204c1c690" width=40%><br/>
-
-2. Next, I created tasks to count the number of rows and to create a data profiling 
+2. Next, I created a task to create a data profiling 
 3. Finally, I created a task to create a data profiling comparing the raw data with the transformed data
 
-Part 3 - TODO
+### Part 3 
 
-## Project objectives:
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/e5f95838-d437-4aac-9ae9-86c8eecf1a22)
 
-**Extraction**: I utilize the requests library and BeautifulSoup to scrape datasets from https://catalog.data.gov and the Chicago Sidewalk Cafe Permits dataset.
-
-**Transformation**: Data manipulation and cleaning are accomplished using Polars, a high-performance data manipulation library written in Rust.
-
-**Data Profiling**: YData Profiling is employed to create dynamic data reports and facilitate data profiling, quality assessment, and visualization, providing insights into data quality and characteristics.
-
-**Loading**: Transformed data is saved in CSV files using Polars.
-
-**Logging**: Loguru is chosen for logging, ensuring transparency, and facilitating debugging throughout the ETL process.
-
-**Data quality**: Soda is employed to ensure data quality.
-
-**Tests**: Pytest is employed for code validation.
-
-**Linting**: Ruff is employed to ensure code quality.
-
-**Formatting**: Ruff is again employed to ensure code quality.
-
-**Orchestration**: Airflow is employed to orchestrate the whole ETL process.
-
-**Continuos Integration**: GitHub Actions is used for continuous integration to push code to GitHub. 
-
-By automating these ETL tasks, I establish a robust data pipeline that transforms raw data into valuable assets, supporting informed decision-making and data-driven insights.
+1. I used the ```BigQueryCreateEmptyDatasetOperator``` operator to create a new empty dataset in BigQuery
+2. Then, I used Astro Python SDK ```BigqueryDatabase..load_pandas_dataframe_to_table``` function to load data into BigQuery
+3. Finally, I used the Astro Python SDK ```astro.sql.cleanup()``` function to clean up all tables  
 
 ## Project structure
 ------------
@@ -217,24 +158,13 @@ By automating these ETL tasks, I establish a robust data pipeline that transform
 
 *Optional
 
-## Exploring datasets 
-
-You can explore some datasets by using this notebook: [gov_etl.ipynb](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/blob/master/notebooks/gov_etl.ipynb)
-
-Below you can see some images of it:
-
-Fetching datasets<br/>
-
-<img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f633d13d-8835-4187-95e8-59db9c6794b7" width=80%><br/>
-
-
-Extracting, transforming, and loading a dataset<br/>
-
-<img src="https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f4d6ddb4-a6a6-494b-a715-f0459b6e2878" width=80%><br/>
-
 ## Running this project
 
-First things first, we need to start astro project. you have two options:
+First things first, we need to create a Google Cloud Account with a BigQuery Admin Role:
+
+You can find a tutorial at directory docs/google_cloud.md or [click here](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/blob/master/docs/google_cloud.md) 
+
+After finishing the tutorial is time to start the project, you can use one of the following commands on Terminal:
 
 1. Run the following command on Terminal
 
@@ -242,7 +172,7 @@ First things first, we need to start astro project. you have two options:
 astro dev start
 ```
 
-2. Use the Makefile command `astro-start` on `Terminal`. Just so you know, you might need to install the Makefile utility on your machine.
+2. Use the Makefile command `astro-start` on `Terminal`. So that you know, you might need to install the Makefile utility on your machine.
 
 ```bash
 astro-start
@@ -258,38 +188,18 @@ Output
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Polars-Dataprep-and-Airflow/assets/94936606/f6127f6f-bae9-4604-927a-a0f4fa8a8d8c)
 
+Before triggering the Dag you must create the following connections in the ```Admin``` tab.
 
 ## Creating a new connection to DuckDB
 
-## TODO
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/faffc419-cad4-460d-aec5-b070f17fc7b7)
+
 
 ## Creating a new connection to Google Cloud
 
-## TODO
-
-Next, unpause by clicking on the toggle button next to the DAG name
-
-## TODO !insert image here
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/5a811d8e-283c-4e55-ad79-a1a63dacb1b9)
 
 
-Finally, click on the play button to trigger the workflow
+Next, execute the ```etl_chicago_cafe_permits``` dag
 
-## TODO !insert image here
-
-
-If everything goes well you will see a result like this one below
-
-## TODO !insert image here
-
-
-## GitHub Action workflow (Continuous Integration)
-
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/4a13a7bd-080f-49a1-aaaa-db353180385f)
-
-
-### TODO
-- [ ] Add column description to reports - [column-descriptions](https://docs.profiling.ydata.ai/4.6/features/metadata/#column-descriptions)
-- [ ] Try to upload data to BigQuery and create a dashboard with Looker
-- [ ] Record how to create a DuckDB connection in airflow
-- [ ] Record workflow running
-- [ ] Completed!
+![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/3e7c7063-8eb6-4362-9750-f22474fcaa36)
