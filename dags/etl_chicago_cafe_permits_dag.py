@@ -1,5 +1,3 @@
-from calendar import c
-from logging import config
 from utils.modify_file_name import modify_file_name
 from utils.format_url import format_url
 from utils.get_time_period import get_time_period
@@ -57,7 +55,7 @@ def transform_data(df: pd.DataFrame):
     return df_pl.to_pandas()
 
 
-@aql.dataframe(pool=DUCKDB_POOL_NAME)
+@aql.dataframe()
 def create_report(df: pd.DataFrame, prefix: str):
     """Create a report from DataFrame"""
     profile = ProfileReport(
@@ -71,7 +69,7 @@ def create_report(df: pd.DataFrame, prefix: str):
     )
 
 
-@aql.dataframe(pool=DUCKDB_POOL_NAME)
+@aql.dataframe()
 def create_comparison_report(raw_df: pd.DataFrame, trans_df: pd.DataFrame):
     """Create a comparison report"""
     raw_report = ProfileReport(raw_df, title="Chicago Sidewalk Cafe Permits - Raw data")
@@ -124,7 +122,7 @@ def soda_check_raw(df: pd.DataFrame):
     con.close()
     return result
 
-@aql.dataframe(pool=DUCKDB_POOL_NAME)
+@aql.dataframe()
 def load_to_bigquery(df: pd.DataFrame):
     """Load DataFrame to BigQuery"""
     BigqueryDatabase(
