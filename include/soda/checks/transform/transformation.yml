@@ -29,6 +29,15 @@ checks for transformed_permits_view:
   - missing_count(doing_business_as_name): 
       name: Ensure that all cafe have a doing business
       fail: when > 0
+  - missing_count(account_number): 
+      name: Ensure that all cafe have an account number
+      fail: when > 0
+  - missing_count(issued_date): 
+      name: Ensure that all cafe have an issued date
+      fail: when > 0
+  - missing_count(expiration_date): 
+      name: Ensure that all cafe have an expiration date
+      fail: when > 0
   - missing_percent(street_type) < 90%:
       name: Ensure that at least 90% of cafes have street type
   - missing_percent(police_district) < 90%:
