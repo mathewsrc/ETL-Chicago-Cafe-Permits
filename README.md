@@ -241,4 +241,4 @@ Before triggering the Dag you must create the following connections in the ```Ad
 
 Next, execute the ```etl_chicago_cafe_permits``` dag
 
-![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/3e7c7063-8eb6-4362-9750-f22474fcaa36)
+![image](https://github.com/mathewsrc/ETL-Chicago-Cafe-Permits/assets/94936606/78961be4-945b-451e-8e06-e7e3e3c57ec4)
