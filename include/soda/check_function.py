@@ -13,7 +13,7 @@ def check(scan_name, data_source, checks_subpath=None, duckdb_conn=None, project
     scan.set_verbose()
     if duckdb_conn != None:
         scan.add_duckdb_connection(duckdb_conn)
-    #scan.add_configuration_yaml_file(config_file) this is not working with DuckDB
+    #scan.add_configuration_yaml_file(config_file) this is causing problem with DuckDB use only add_duckdb_connection
     scan.set_data_source_name(data_source)
     scan.add_sodacl_yaml_files(checks_path)
     scan.set_scan_definition_name(scan_name)
