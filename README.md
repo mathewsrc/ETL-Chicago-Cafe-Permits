@@ -1,3 +1,4 @@
+[![CI](https://github.com/mathewsrc/ETL-Chicago-Cafe-Permits/actions/workflows/main.yml/badge.svg)](https://github.com/mathewsrc/ETL-Chicago-Cafe-Permits/actions/workflows/main.yml)
 
 # Streamlined ETL Process: Unleashing  Airflow, BigQuery, Looker, Polars, Soda, DuckDB and YData Profiling
 
