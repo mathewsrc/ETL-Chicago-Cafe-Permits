@@ -200,6 +200,7 @@ By automating these ETL tasks, I establish a robust data pipeline that transform
 
 * The Astro CLI installed. You can find installation instructions in this link [Astro CLI](https://docs.astronomer.io/astro/cli/install-cli?tab=linux#install-the-astro-cli)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
+* Google Cloud account
 * Make utility*
 * Airflow DuckDB connection (See **Creating a connection to DuckDB** section bellow)
 
