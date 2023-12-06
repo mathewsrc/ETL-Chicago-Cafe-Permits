@@ -43,6 +43,41 @@ You can check the dataset table at: https://data.cityofchicago.org/widgets/qnjv-
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/33d8424e-e860-4796-b996-cd1ffb9df20a)
 
 
+### BigQuery query to create report view and export it to Looker Studio
+
+```sql
+CREATE OR REPLACE VIEW chicago-cafe-permits.cafe_permits.vw_report
+OPTIONS(
+  description='Number of permits by legal name and doing business name',
+  labels=[('legal_name', 'total_permits')],
+  expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 60 DAY)
+) AS
+SELECT 
+  legal_name,
+  doing_business_as_name,
+  street_type,
+  city,
+  state,
+  latitude,
+  longitude,
+  issued_date,
+  expiration_date,
+  payment_date,
+  site_number,
+  COUNT(DISTINCT(permit_number)) AS total_permits,
+  COUNT(site_number) AS total_sites,
+  ST_GEOGPOINT(latitude, longitude) AS geo,
+  CASE 
+    WHEN expiration_date > issued_date THEN 'TRUE'
+    ELSE 'FALSE'
+  END AS expired
+FROM `chicago-cafe-permits.cafe_permits.cafe_permits`
+GROUP BY legal_name, doing_business_as_name, street_type, city,state, issued_date, expiration_date, payment_date,site_number, latitude, longitude, expired;
+
+
+SELECT * FROM `chicago-cafe-permits.cafe_permits.vw_report`;
+```
+
 ## Looker dashboard
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/37dd0503-1244-48ea-b711-1c263a4f2a62)
