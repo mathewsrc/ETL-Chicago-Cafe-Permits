@@ -50,14 +50,6 @@ docker-clean-containers:
 		docker rm -f $$(docker ps -aq); \
 	fi
 
-login:
-	@echo "Logging in to Hugging Face"
-	huggingface-cli login
-
-logout:
-	@echo "Logging out of Hugging Face"
-	huggingface-cli logout
-
 astro-init:
 	@echo "Init Astro"	
 	astro dev init 
