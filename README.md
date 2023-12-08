@@ -10,8 +10,6 @@ https://www.linkedin.com/in/matheusrc/
 
 This ETL (Extract, Transform, Load) project employs several Python libraries, including Polars, Airflow, Soda, YData Profiling, DuckDB, Requests, BeautifulSoup, Loguru, and the Google Cloud Services BigQuery and Looker Studio to streamline the extraction, transformation, and loading of CSV dataset from the [Chicago Sidewalk Cafe Permits](https://catalog.data.gov/dataset/sidewalk-cafe-permits). 
 
-Steps
-
 * Extracting CSV data from an API about operating permits for Chicago cafes with the Requests library
 * Data transformation using Polars Libraries, DuckDB, and Astro Python SDK
 * Uploading local data to BigQuery
