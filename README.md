@@ -122,6 +122,10 @@ SELECT * FROM `chicago-cafe-permits.cafe_permits.vw_report`;
 2. Then, I used Astro Python SDK ```BigqueryDatabase.load_pandas_dataframe_to_table``` function to load data into BigQuery
 3. Finally, I used the Astro Python SDK ```astro.sql.cleanup()``` function to clean up all tables  
 
+As mentioned earlier, Soda can play a pivotal role in ensuring that our data meets all requirements and aligns with our expectations. Here, I will briefly outline the four key data quality features that Soda can effectively address:
+
+![image](https://github.com/mathewsrc/ETL-Chicago-Cafe-Permits/assets/94936606/72edb170-a992-4304-9d89-35641842b5e4)
+
 ## Project structure
 ------------
 
