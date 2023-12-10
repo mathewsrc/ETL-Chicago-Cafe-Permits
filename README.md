@@ -37,8 +37,9 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
 * [Project structure](#project-structure)
 * [Running this project](#running-this-project)
    *  [Prerequites](#prerequisites)
-* [Creating a new connection to DuckDB](#creating-a-new-connection-to-duckdb)
-* [Creating a new connection to Google Cloud](#creating-a-new-connection-to-google-cloud)
+   *  [Starting the project with the Astro CLI](#starting-the-project-with-the-astro-cli)
+   * [Creating a new connection to DuckDB](#creating-a-new-connection-to-duckdb)
+   * [Creating a new connection to Google Cloud](#creating-a-new-connection-to-google-cloud)
   
 ## Architecture Overview 
 
@@ -218,6 +219,8 @@ As mentioned earlier, Soda can play a pivotal role in ensuring that our data mee
 
 *Optional
 
+### Starting the project with the Astro CLI
+
 First things first, we need to create a Google Cloud Account with a BigQuery Admin Role:
 
 You can find a tutorial at directory docs/google_cloud.md or [click here](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/blob/master/docs/google_cloud.md) 
@@ -248,12 +251,12 @@ Output
 
 Before triggering the Dag you must create the following connections in the ```Admin``` tab.
 
-## Creating a new connection to DuckDB
+### Creating a new connection to DuckDB
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/faffc419-cad4-460d-aec5-b070f17fc7b7)
 
 
-## Creating a new connection to Google Cloud
+### Creating a new connection to Google Cloud
 
 ![image](https://github.com/mathewsrc/Streamlined-ETL-Process-Unleashing-Airflow-Soda-Polars-and-YData-Profiling/assets/94936606/5a811d8e-283c-4e55-ad79-a1a63dacb1b9)
 
