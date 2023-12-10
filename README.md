@@ -35,8 +35,8 @@ This ETL (Extract, Transform, Load) project employs several Python libraries, in
   * [Part 2](#part-2)
   * [Part 3](TODO)
 * [Project structure](#project-structure)
-* [Prerequites](#prerequisites)
 * [Running this project](#running-this-project)
+   *  [Prerequites](#prerequisites)
 * [Creating a new connection to DuckDB](#creating-a-new-connection-to-duckdb)
 * [Creating a new connection to Google Cloud](#creating-a-new-connection-to-google-cloud)
   
@@ -203,7 +203,11 @@ As mentioned earlier, Soda can play a pivotal role in ensuring that our data mee
 
 --------
 
-## Prerequisites
+
+
+## Running this project
+
+### Prerequisites
 
 * The Astro CLI installed. You can find installation instructions in this link [Astro CLI](https://docs.astronomer.io/astro/cli/install-cli?tab=linux#install-the-astro-cli)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
@@ -213,8 +217,6 @@ As mentioned earlier, Soda can play a pivotal role in ensuring that our data mee
 * Google Cloud connection (See **Creating a connection to Google Cloud** section below)
 
 *Optional
-
-## Running this project
 
 First things first, we need to create a Google Cloud Account with a BigQuery Admin Role:
 
